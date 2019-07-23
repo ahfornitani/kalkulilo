@@ -17,13 +17,9 @@ namespace CalcConsoleAug
 
             // Ĉi tiu stako konservas antaŭajn rezultojn
             Stack<decimal> rezultStako = new Stack<decimal>();
-            while (true)
-            {
-                string[] originala = Console.ReadLine().Split("#");
-                string enigita = originala[0].ToLower();
 
-                #region Listo de Anstataŭigo
-                Dictionary<string, string> listoDeAnstataŭigo = new Dictionary<string, string> {
+            #region Listo de Anstataŭigo
+            Dictionary<string, string> listoDeAnstataŭigo = new Dictionary<string, string> {
                     //konstantoj
                     { "konstantopi", "3.1415926536"},
                     { "konstpi", "3.1415926536"},
@@ -31,20 +27,6 @@ namespace CalcConsoleAug
                     { "konste", "2.7182818285"},
                     { "konstc", "299792458"},
                     { "lumrapido", "299792458"},
-                    { "kvr", "sqrt("},
-
-                    // temperaturaj konvertoj
-                    // Farenhejto al C kaj al K estas aparte
-                    {"c al f", "*1.8 + 32"},
-                    {"c en f", "*1.8 + 32"},
-                    {"c al k", "+273.15"},
-                    {"c en k", "+273.15"},
-                    {"k al c", "-273.15"},
-                    {"k en c", "-273.15"},
-                    {"k al f", "*(9/5) - 459.67"},
-                    {"k en f", "*(9/5) - 459.67"},
-                    {"r al f", " - 459.67"},
-                    {"r en f", " - 459.67"},
 
                     //kilometro
                     
@@ -82,7 +64,7 @@ namespace CalcConsoleAug
                     {"mejloj en km", "*1.609344"},
                     {"mejlo al km", "*1.609344"},
                     {"mejlo en km", "*1.609344"},
-                    
+
                     //hektometro
                     {"hm al km", "/10"},
                     {"hm en km", "/10"},
@@ -180,7 +162,6 @@ namespace CalcConsoleAug
                     { "naux", "9" },
                     { "dek", "10" },
 
-
                     { "dumil", "2000" },
                     { "trimil", "3000" },
                     { "kvarmil", "4000" },
@@ -203,9 +184,30 @@ namespace CalcConsoleAug
                     { "bi", "*1000000000000" },
 
                     {"mod", "%" },
-                    {"pot", "Math.Pow(2, 2)" },
                     };
-                #endregion
+            #endregion
+
+            while (true)
+            {
+                string[] originala = Console.ReadLine().Split("#");
+                string enigita = originala[0].ToLower();
+
+                if (enigita.Contains("="))
+                {
+                    var varDisigita = enigita.Split("=");
+                    var varNomo = varDisigita[0].Trim();
+                    var varEnhavo = $"({varDisigita[1].Trim()})*1";
+                    foreach (var ŝlosilo in listoDeAnstataŭigo.Keys)
+                    {
+                        if (varEnhavo.Contains(ŝlosilo))
+                        {
+                            varEnhavo = varEnhavo.Replace(ŝlosilo, listoDeAnstataŭigo[ŝlosilo]);
+                        }
+                    }
+                    listoDeAnstataŭigo.Add(varNomo, varEnhavo);
+                    //Console.WriteLine($"varNomo estas {varNomo} kaj varEnhavo estas {varEnhavo}");
+                }
+
                 string enigitaPostKonverto = enigita;
                 foreach (string ŝlosilo in listoDeAnstataŭigo.Keys)
                 {
@@ -220,38 +222,111 @@ namespace CalcConsoleAug
                     }
                 }
 
-                List<string> listoFarenhejtoAl = new List<string> {
+
+                #region Temperaturaj konvertoj
+                // Listo de temperaturaj konvertoj
+                List<string> temperaturoDeAl = new List<string> {
                     "f al c", "f en c", "°f en °c", "°f al °c",
-                    "f al k", "f en k", "°f en °k", "°f al °k",
+                    "f al k", "f en k", "°f en k", "°f al k",
                     "f al r", "f en r", "°f en °r", "°f al °r",
+
+                    "c al f", "c en f", "°c en °f", "°c al °f",
+                    "c al k", "c en k", "°c en k", "°c al k",
+                    "c al r", "c en r", "°c en °r", "°c al °r",
+
+                    "k al f", "k en f", "k en °f", "k al °f",
+                    "k al c", "k en c", "k en °c", "k al °c",
+                    "k al r", "k en r", "k en °r", "k al °r",
+
+                    "r al f", "r en f", "°r en °f", "°r al °f",
+                    "r al c", "r en c", "°r en °c", "°r al °c",
+                    "r al k", "r en k", "r en k", "r al k",
                 };
 
-                foreach (string ero in listoFarenhejtoAl)
+
+                foreach (string ero in temperaturoDeAl)
                 {
                     if (enigita.Contains(ero))
                     {
                         string enigitaKopio = enigitaPostKonverto;
                         string[] disigita = enigitaKopio.Split(ero);
-                        double farenhejto = Convert.ToDouble(disigita[0].Replace("°", String.Empty));
-                        double formulo = 0.0;
-                        if (ero.EndsWith("c"))
+                        double deTemperaturo = Convert.ToDouble(disigita[0].Replace("°", String.Empty));
+                        double alTemperaturo = 0.0;
+
+                        //Farenhejtaj konvertoj
+                        if (ero.Contains("f al") || ero.Contains("f en"))
                         {
-                            formulo = (farenhejto - 32) / 1.8;
+                            if (ero.EndsWith("c"))
+                            {
+                                alTemperaturo = (deTemperaturo - 32) / 1.8;
+                            }
+                            else if (ero.EndsWith("k"))
+                            {
+                                alTemperaturo = (deTemperaturo + 459.67) * 5 / 9;
+                            }
+                            else if (ero.EndsWith("r"))
+                            {
+                                alTemperaturo = (deTemperaturo + 459.67);
+                            }
                         }
-                        else if (ero.EndsWith("k"))
+
+                        if (ero.Contains("c al") || ero.Contains("c en"))
                         {
-                            formulo = (farenhejto + 459.67) * 5 / 9;
+                            if (ero.EndsWith("f"))
+                            {
+                                alTemperaturo = (deTemperaturo - 32) / 1.8;
+                            }
+                            else if (ero.EndsWith("k"))
+                            {
+                                alTemperaturo = deTemperaturo + 273.15;
+                            }
+                            else if (ero.EndsWith("r"))
+                            {
+                                alTemperaturo = (deTemperaturo + 273.15) * 9 / 5;
+                            }
                         }
-                        else if (ero.EndsWith("r"))
+
+                        if (ero.Contains("k al") || ero.Contains("k en"))
                         {
-                            formulo = (farenhejto + 459.67);
+                            if (ero.EndsWith("f"))
+                            {
+                                alTemperaturo = (deTemperaturo * 9 / 5) - 459.67;
+                            }
+                            else if (ero.EndsWith("c"))
+                            {
+                                alTemperaturo = deTemperaturo - 273.15;
+                            }
+                            else if (ero.EndsWith("r"))
+                            {
+                                alTemperaturo = deTemperaturo * 9 / 5;
+                            }
                         }
+
+                        if (ero.Contains("r al") || ero.Contains("r en"))
+                        {
+                            if (ero.EndsWith("f"))
+                            {
+                                alTemperaturo = deTemperaturo - 459.67;
+                            }
+                            else if (ero.EndsWith("c"))
+                            {
+                                alTemperaturo = (deTemperaturo - 491.67) * 5 / 9;
+                            }
+                            else if (ero.EndsWith("k"))
+                            {
+                                alTemperaturo = deTemperaturo * 5 / 9;
+                            }
+                        }
+
+
                         //Console.WriteLine($">> {formulo.ToString().Replace(".", ",")} °C");
-                        enigita = formulo.ToString();
-                        rezultStako.Push(Convert.ToDecimal(formulo));
+                        enigita = alTemperaturo.ToString();
+                        rezultStako.Push(Convert.ToDecimal(alTemperaturo));
                     }
                 }
+                #endregion
 
+                #region Monaj konvertoj
                 // Provo konverti monon
                 string oxrAppId = "62182152dd4540d1885982f4c7685897";
                 List<string> listoDeValutoj = new List<string> { "BRL", "CAD", "USD", "NZD", "GBP", };
@@ -261,33 +336,36 @@ namespace CalcConsoleAug
                 {
 
                 }
+                #endregion
 
+                #region Antaŭaj rezultoj
+                List<string> rezultĈenoj = new List<string> { "res", "ant", "antaŭa", "rez", };
 
-                List<string> resultStrings = new List<string> { "res", "ant", "antaŭa", "rez", };
-                List<string> elirKomandListo = new List<string> { "eliri()", "fermu()" };
 
                 /// <summary>
                 /// Jen kiel preni la antaŭajn valorojn funkcias
                 /// </summary>
-                foreach (string str in resultStrings)
+                foreach (string ĉeno in rezultĈenoj)
                 {
-                    if (enigita.Contains(str))
+                    if (enigita.Contains(ĉeno))
                     {
                         if (rezultStako.Count == 0)
                         {
                             //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
                             Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
-                            enigita = enigita.Replace(str, string.Empty);
+                            enigita = enigita.Replace(ĉeno, string.Empty);
                         }
                         else
                         {
                             //se stako havas valorojn, preni lastan por kalkuli
-                            enigita = enigita.Replace(str, rezultStako.Peek().ToString());
+                            enigita = enigita.Replace(ĉeno, rezultStako.Peek().ToString());
                         }
                     }
                 }
+                #endregion
 
-                // Quit
+                #region Ferm-komandoj
+                List<string> elirKomandListo = new List<string> { "eliri()", "fermu()" };
                 foreach (string elirKomando in elirKomandListo)
                 {
                     if (enigita.Contains(elirKomando))
@@ -304,8 +382,10 @@ namespace CalcConsoleAug
                         }
                     }
                 }
+                #endregion
 
 
+                #region Montri rezulton
                 //Preni enjtapitajn valoron, post kiam trans-ŝanĝoj okazis (ekz. "dek" -> 10)
                 // kaj fari la kalkulon
 
@@ -327,11 +407,25 @@ namespace CalcConsoleAug
                 catch (Exception escepto)
                 {
                     Console.WriteLine("Nevalida kalkulo");
+                    Console.WriteLine(Forfikiĝu("omg"));
                     //Console.WriteLine(escepto);
-                }
 
+                }
+                #endregion
+
+                
 
             }
+        }
+
+        //static double AlTemperaturo()
+        //{
+
+        //}
+
+        static string Forfikiĝu(string nomo)
+        {
+            return $"Vi Forfikiĝu, fia {nomo}!";
         }
     }
 }
