@@ -1,0 +1,277 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Text;
+
+namespace CalcConsoleAug {
+    public static class Program
+    {
+        public static void Main (string[] args) {
+            
+            CultureInfo miaKulturo = new CultureInfo ("pt-BR", true);
+            Console.OutputEncoding = Encoding.UTF8;
+
+            // Ĉi tiu stako konservas antaŭajn rezultojn
+            int[] nombroDeVariabloj = new int[10];
+            var rezultStako = new Stack<decimal> ();
+            while (true) {
+                var originala = Console.ReadLine ().Split ("//");
+                var enigita = originala[0];
+
+                #region Listo de Anstataŭigo
+                var listoDeFunkcioj = new List<string> {
+                    //konstantoj
+                    { "konstantopi" },
+                    { "konstpi" },
+                    { "konstantoe" },
+                    { "konste" },
+                    { "konstc" },
+                    { "lumrapido" },
+                    { "kvr" },
+
+                    //ĝustigi Farenhejton en/al C kaj K
+                    { "f al c" },
+                    { "f en c" },
+                    { "f al k" },
+                    { "f en k" },
+
+                    { "c al f" },
+                    { "c en f" },
+                    { "c al k" },
+                    { "c en k" },
+                    { "k al c" },
+                    { "k en c" },
+                    { "k al f" },
+                    { "k en f" },
+
+                    //kilometro
+
+                    { "km al pm" },
+                    { "km en pm" },
+                    { "km al nm" },
+                    { "km en nm" },
+                    { "km al µm" },
+                    { "km en µm" },
+                    { "km al mm" },
+                    { "km en mm" },
+                    { "km al cm" },
+                    { "km en cm" },
+                    { "km al dm" },
+                    { "km en dm" },
+                    { "km al marmejloj" },
+                    { "km en marmejloj" },
+                    { "km al marmejlo" },
+                    { "km en marmejlo" },
+                    { "km al mejloj" },
+                    { "km en mejloj" },
+                    { "km al mejlo" },
+                    { "km en mejlo" },
+                    { "km al m" },
+                    { "km en m" },
+                    { "km al dam" },
+                    { "km en dam" },
+                    { "km al hm" },
+                    { "km en hm" },
+                    { "marmejloj al km" },
+                    { "marmejloj en km" },
+                    { "marmejlo al km" },
+                    { "marmejlo en km" },
+                    { "mejloj al km" },
+                    { "mejloj en km" },
+                    { "mejlo al km" },
+                    { "mejlo en km" },
+
+                    //hektometro
+                    { "hm al km" },
+                    { "hm en km" },
+
+                    // Dekoblaj unuoj 
+                    { "m al dm" },
+                    { "m en dm" },
+                    { "m al cm" },
+                    { "m en cm" },
+                    { "m al mm" },
+                    { "m en mm" },
+                    { "m al dam" },
+                    { "m en dam" },
+                    { "m al km" },
+                    { "m en km" },
+
+                    { "\\" },
+                    { "," },
+                    { ";" },
+                    { "[" },
+                    { "]" },
+                    { "kpd" },
+                    { "oble" },
+                    { "proc" },
+                    { "elc" },
+                    { "dudek" },
+                    { "tridek" },
+                    { "kvardek" },
+                    { "kvindek" },
+                    { "sesdek" },
+                    { "sepdek" },
+                    { "okdek" },
+                    { "naŭdek" },
+                    { "nauxdek" },
+                    { "naudek" },
+                    { "dekunu" },
+                    { "dekdu" },
+                    { "dektri" },
+                    { "dekkvar" },
+                    { "dekkvin" },
+                    { "dekses" },
+                    { "deksep" },
+                    { "dekok" },
+                    { "deknaŭ" },
+                    { "deknaux" },
+                    { "deknau" },
+
+                    { "ducentmil" },
+                    { "tricentmil" },
+                    { "kvarcentmil" },
+                    { "kvincentmil" },
+                    { "sescentmil" },
+                    { "sepcentmil" },
+                    { "okcentmil" },
+                    { "naŭcentmil" },
+                    { "nauxcentmil" },
+                    { "naucentmil" },
+                    { "centmil" },
+
+                    { "ducent" },
+                    { "tricent" },
+                    { "kvarcent" },
+                    { "kvincent" },
+                    { "sescent" },
+                    { "sepcent" },
+                    { "okcent" },
+                    { "naŭcent" },
+                    { "foje" },
+                    { "foj" },
+                    { "centfoje" },
+                    { "cent" },
+                    { "plus" },
+                    { "minus" },
+                    { "sub" },
+                    { "multobligitade" },
+                    { "mult" },
+                    { "dividitade" },
+                    { "onigi" },
+                    { "div" },
+
+                    { "pli" },
+                    { "kaj" },
+                    { "unu" },
+                    { "du" },
+                    { "tri" },
+                    { "kvar" },
+                    { "kvin" },
+                    { "ses" },
+                    { "sep" },
+                    { "ok" },
+                    { "naŭ" },
+                    { "nau" },
+                    { "naux" },
+                    { "dek" },
+
+                    { "dumil" },
+                    { "trimil" },
+                    { "kvarmil" },
+                    { "kvinmil" },
+                    { "sesmil" },
+                    { "sepmil" },
+                    { "okmil" },
+                    { "ok mil" },
+                    { "naŭmil" },
+                    { "naŭ mil" },
+                    { "dekmil" },
+
+                    { "k" },
+                    { "kk" },
+                    { "miliardo" },
+                    { "mardo" },
+                    { "miliono" },
+                    { " mil" },
+                    { "mil" },
+                    { "mi"},
+                    { "biliono" },
+                    { "bi" },
+
+                    { "mod" },
+                    { "pot" },
+                };
+
+                foreach (var ero in listoDeFunkcioj) {
+                    if (enigita.Contains (ero)) {
+                        enigita = enigita.Replace (ero, "blabla");
+                    } else if (enigita.Contains ("forig") || enigita.Contains ("vakig")) {
+                        Console.Clear ();
+                    }
+                }
+                #endregion
+
+                var rezultŜnuraro = new List<string> { "res", "ant", "antaŭa", "rez", };
+                var elirKomandListo = new List<string> { "eliri()", "fermu()" };
+
+                /// <summary>
+                /// Jen kiel preni la antaŭajn valorojn funkcias
+                /// </summary>
+                foreach (var str in rezultŜnuraro) {
+                    if (enigita.Contains (str)) {
+                        if (rezultStako.Count == 0) {
+                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                            Console.WriteLine ("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                            enigita = enigita.Replace (str, string.Empty);
+                        } else {
+                            //se stako havas valorojn, preni lastan por kalkuli
+                            enigita = enigita.Replace (str, rezultStako.Peek ().ToString ());
+                        }
+                    }
+                }
+
+                // Foriri
+                foreach (var elirKomando in elirKomandListo) {
+                    if (enigita.Contains (elirKomando)) {
+                        Console.WriteLine ("Ĉu vi vere volas fermi ĉi tiu aplikaĵon? [J]/[N]");
+                        string jesAŭNe = Console.ReadLine ().ToLower ();
+                        if (jesAŭNe == "j") {
+                            Environment.Exit (0);
+                        } else {
+                            Console.WriteLine ("Bone, plue kalkulumu!");
+                        }
+                    }
+                }
+
+                //Preni enjtapitajn valoron, post kiam trans-ŝanĝoj okazis (ekz. "dek" -> 10)
+                // kaj fari la kalkulon
+
+                try {
+                    decimal rezulto = Convert.ToDecimal (new DataTable ().Compute (enigita, null));
+                    rezultStako.Push (rezulto);
+                    if (rezulto % 2 == 0) {
+                        string montruĈiTiun = Convert.ToDouble (rezulto).ToString ("#,##0");
+                        Console.WriteLine ($">> {montruĈiTiun.Replace(".", ",")}");
+                    } else {
+                        Console.WriteLine ($">> {rezulto.ToString().Replace(".", ",")} ");
+                    }
+
+                } catch (Exception escepto) {
+                    Console.WriteLine ("Nevalida kalkulo");
+                    //Console.WriteLine(escepto);
+                }                
+
+            }
+        }
+
+        public static void FarenhejtoAlCelsiuso()
+        {
+            if ()
+            {
+
+            }
+        }
+    }
+}

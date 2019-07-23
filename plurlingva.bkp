@@ -1,0 +1,332 @@
+//using System;
+//using System.Collections.Generic;
+//using System.Data;
+//using System.Text.RegularExpressions;
+
+//namespace CalcConsoleAug
+//{
+//    static class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            // This stack keeps a log of all previous results
+//            var resultStack = new Stack<decimal>();
+//            while (true)
+//            {
+//                var entered = Console.ReadLine();
+
+//                #region Substitution List
+//                var substList = new Dictionary<string, string> {
+//                        { "dudek", "20" },
+//                        { "tridek", "30" },
+//                        { "kvardek", "40" },
+//                        { "kvindek", "50" },
+//                        { "sesdek", "60" },
+//                        { "sepdek", "70" },
+//                        { "okdek", "80" },
+//                        { "naŭdek", "90" },
+//                        { "dekunu", "11" },
+//                        { "dekdu", "12" },
+//                        { "dektri", "13" },
+//                        { "dekkvar", "14" },
+//                        { "dekkvin", "15" },
+//                        { "dekses", "16" },
+//                        { "deksep", "17" },
+//                        { "dekok", "18" },
+//                        { "deknaŭ", "19" },
+//                        { "deknaux", "19" },
+//                        { "deknau", "19" },
+//                        { "ducent", "200" },
+//                        { "tricent", "300" },
+//                        { "kvarcent", "400" },
+//                        { "kvincent", "500" },
+//                        { "sescent", "600" },
+//                        { "sepcent", "700" },
+//                        { "okcent", "800" },
+//                        { "naŭcent", "900" },
+//                        { "foje", "*" },
+//                        { "centfoje", "*100" },
+//                        { "cent", "100" },
+//                        { "plus", "+" },
+//                        { "more", "+" },
+//                        { "add", "+" },
+//                        { "minus", "-" },
+//                        { "subtractedby", "-" },
+//                        { "subtracted by", "-" },
+//                        { "less", "-" },
+//                        { "subtract", "-" },
+//                        { "times", "*" },
+//                        { "multiply", "*" },
+//                        { "multiplied", "*" },
+//                        { "multipliedby", "*" },
+//                        { "multiplied by", "*" },
+//                        { "dividedby", "/" },
+//                        { "divided by", "/" },
+//                        { "div", "/" },
+//                        { "percentof", "*%" },
+//                        { "percent of", "*%" },
+//                        { "percent", "*%" },
+//                        { "to", "%" },
+//                        { "power", "^" },
+//                        { "pow", "**" },
+//                        { "mais", "+" },
+//                        { "com", "+" },
+//                        { "menos", "-" },
+//                        { "subtraído", "-" },
+//                        { "subtraídopor", "-" },
+//                        { "subtraído por", "-" },
+//                        { "subtraido", "-" },
+//                        { "subtraidopor", "-" },
+//                        { "subtraido por", "-" },
+//                        { "vezes", "*" },
+//                        { "multiplicadopor", "*" },
+//                        { "multiplicado por", "*" },
+//                        { "divididopor", "/" },
+//                        { "dividido por", "/" },
+//                        { "elevadoa", "^" },
+//                        { "elevado a", "^" },
+//                        { "elevado", "^" },
+//                        { "potência", "^" },
+//                        { "potencia", "^" },
+//                        { "pot", "^" },
+//                        { "pli", "+" },
+//                        { "kaj", "+" },
+//                        { "one", "1" },
+//                        { "eins", "1" },
+//                        { "um", "1" },
+//                        { "uno", "1" },
+//                        { "unu", "1" },
+//                        { "two", "2" },
+//                        { "zwei", "2" },
+//                        { "dois", "2" },
+//                        { "dos", "2" },
+//                        { "du", "2" },
+//                        { "three", "3" },
+//                        { "drei", "3" },
+//                        { "três", "3" },
+//                        { "tres", "3" },
+//                        { "tri", "3" },
+//                        { "four", "4" },
+//                        { "vier", "4" },
+//                        { "quatro", "4" },
+//                        { "cuatro", "4" },
+//                        { "kvar", "4" },
+//                        { "five", "5" },
+//                        { "fünf", "5" },
+//                        { "cinco", "5" },
+//                        { "kvin", "5" },
+//                        { "six", "6" },
+//                        { "sechs", "6" },
+//                        { "seis", "6" },
+//                        { "ses", "6" },
+//                        { "seven", "7" },
+//                        { "sieben", "7" },
+//                        { "sete", "7" },
+//                        { "siete", "7" },
+//                        { "sep", "7" },
+//                        { "eight", "8" },
+//                        { "acht", "8" },
+//                        { "oito", "8" },
+//                        { "echo", "8" },
+//                        { "ok", "8" },
+//                        { "nine", "9" },
+//                        { "neun", "9" },
+//                        { "nove", "9" },
+//                        { "nueve", "9" },
+//                        { "naŭ", "9" },
+//                        { "nau", "9" },
+//                        { "naux", "9" },
+//                        { "ten", "10" },
+//                        { "zehn", "10" },
+//                        { "dez", "10" },
+//                        { "diez", "10" },
+//                        { "dek", "10" },
+                        
+//                        { "eleven", "11" },
+//                        { "onze", "11" },
+//                        { "once", "11" },
+//                        { "twelve", "12" },
+//                        { "doze", "12" },
+//                        { "doce", "12" },
+//                        { "thirteen", "13" },
+//                        { "treze", "13" },
+//                        { "trece", "13" },
+//                        { "fourteen", "14" },
+//                        { "quatorze", "14" },
+//                        { "catorze", "14" },
+//                        { "catorce", "14" },
+//                        { "fifteen", "15" },
+//                        { "quinze", "15" },
+//                        { "quince", "15" },
+//                        { "sixteen", "16" },
+//                        { "dezasseis", "16" },
+//                        { "dezesseis", "16" },
+//                        { "diecisséis", "16" },
+//                        { "diecisseis", "16" },
+//                        { "seventeen", "17" },
+//                        { "dezassete", "17" },
+//                        { "dezessete", "17" },
+//                        { "diecisiete", "17" },
+//                        { "eighteen", "18" },
+//                        { "dezoito", "18" },
+//                        { "dieciocho", "18" },
+//                        { "nineteen", "19" },
+//                        { "dezanove", "19" },
+//                        { "dezenove", "19" },
+//                        { "diecinueve", "19" },
+//                        { "twenty", "20" },
+//                        { "vinte", "20" },
+//                        { "veinte", "20" },
+//                        { "zwanzig", "20" },
+//                        { "twenty one", "21" },
+//                        { "thirty", "30" },
+//                        { "trinta", "30" },
+//                        { "treinta", "30" },
+
+                        
+//                        { "one hundred", "100" },
+//                        { "one-hundred", "100" },
+//                        { "hundred", "100" },
+                        
+//                        { "cem", "100" },
+//                        { "dreißig", "30" },
+//                        { "thousand", "*1000" },
+//                        { "one thousand", "1000" },
+//                        { "one-thousand", "1000" },
+//                        { "mil", "1000" },
+//                        { "ummil", "1000" },
+//                        { "two thousand", "2000" },
+//                        { "two-thousand", "2000" },
+//                        { "doismil", "2000" },
+//                        { "dosmil", "2000" },
+//                        { "dumil", "2000" },
+//                        { "three thousand", "3000" },
+//                        { "three-thousand", "3000" },
+//                        { "trêsmil", "3000" },
+//                        { "tresmil", "3000" },
+//                        { "trimil", "3000" },
+//                        { "four-thousand", "4000" },
+//                        { "quatromil", "4000" },
+//                        { "cuatromil", "4000" },
+//                        { "kvarmil", "4000" },
+//                        { "four thousand", "4000" },
+//                        { "five thousand", "5000" },
+//                        { "five-thousand", "5000" },
+//                        { "cincomil", "5000" },
+//                        { "kvinmil", "5000" },
+//                        { "six thousand", "6000" },
+//                        { "six-thousand", "6000" },
+//                        { "seismil", "6000" },
+//                        { "sesmil", "6000" },
+//                        { "seven thousand", "7000" },
+//                        { "seven-thousand", "7000" },
+//                        { "setemil", "7000" },
+//                        { "sietemil", "7000" },
+//                        { "sepmil", "7000" },
+//                        { "eight thousand", "8000" },
+//                        { "eight-thousand", "8000" },
+//                        { "oitomil", "8000" },
+//                        { "oito mil", "8000" },
+//                        { "ochomil", "8000" },
+//                        { "ocho mil", "8000" },
+//                        { "okmil", "8000" },
+//                        { "ok mil", "8000" },
+//                        { "nine thousand", "9000" },
+//                        { "nine-thousand", "9000" },
+//                        { "nove mil", "9000" },
+//                        { "naŭmil", "9000" },
+//                        { "naŭ mil", "9000" },
+//                        { "nueve mil", "9000" },
+//                        { "tenthousand", "10000" },
+//                        { "ten-thousand", "10000" },
+//                        { "dez mil", "10000" },
+//                        { "dezmil", "10000" },
+//                        { "diez mil", "10000" },
+//                        { "dekmil", "10000" },
+//                        { "k", "*1000" },
+//                        { "kk", "*1000000" },
+//                        { "mi", "*1000000" },
+//                        { "milhão", "*1000000" },
+//                        { "millón", "*1000000" },
+//                        { "milhao", "*1000000" },
+//                        { "millon", "*1000000" },
+//                        { "miliono", "*1000000" },
+//                        { "bi", "*1000000000" },
+//                        { "bilhão", "*1000000000" },
+//                        { "miliardo", "*1000000000" },
+//                        { "biliono", "*1000000000" },
+//                        { "trillion", "*1000000000000" },
+//                        { "trilhão", "*1000000000000" },
+//                        { "billón", "*1000000000000" },
+//                    };
+
+//                foreach (var keys in substList.Keys)
+//                {
+//                    if (entered.Contains(keys))
+//                    {
+//                        entered = entered.Replace(keys, substList[keys]);
+//                    }
+//                }
+//                #endregion
+
+//                var resultStrings = new List<string> { "res", "ant", "antaŭa", "rez", };
+//                var quitCommands = new List<string> { "eliri()", "fermu()" };
+
+//                /// <summary>
+//                /// This is how getting the previous value works
+//                /// </summary>
+//                foreach (var str in resultStrings)
+//                {
+//                    if (entered.Contains(str))
+//                    {
+//                        if (resultStack.Count == 0)
+//                        {
+//                            //if Stack is empty, also make ans/res/prev empty to avoid error
+//                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+//                            entered = entered.Replace(str, string.Empty);
+//                        }
+//                        else
+//                        {
+//                            //if stack has values, grabs the last one to calculate
+//                            entered = entered.Replace(str, resultStack.Pop().ToString());
+//                        }
+//                    }
+//                }
+
+//                // Quit
+//                foreach (var quitCommand in quitCommands)
+//                {
+//                    if (entered.Contains(quitCommand))
+//                    {
+//                        Console.WriteLine("Ĉu vi vere volas fermi ĉi tiu aplikaĵon? [J]/[N]");
+//                        string jesAŭNe = Console.ReadLine().ToLower();
+//                        if (jesAŭNe == "j")
+//                        {
+//                            Environment.Exit(0);
+//                        }
+//                        else
+//                        {
+//                            Console.WriteLine("Bone, plue kalkulumu!");
+//                        }
+//                    }
+//                }
+
+
+//                // Grab typed input, after conversions are made (e.g. "ten" > 10)
+//                // and makes the calculation
+//                try
+//                {
+//                    decimal result = Convert.ToDecimal(new DataTable().Compute(entered, null));
+//                    resultStack.Push(result);
+//                    Console.WriteLine($">> {result} ");
+//                }
+//                catch (Exception)
+//                {
+//                    Console.WriteLine("Nevalida kalkulo");
+//                }
+                
+                
+//            }
+//        }
+//    }
+//}
