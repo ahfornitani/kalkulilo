@@ -17,6 +17,7 @@ namespace CalcConsoleAug
 
             // Ĉi tiu stako konservas antaŭajn rezultojn
             Stack<decimal> rezultStako = new Stack<decimal>();
+            Stack<string> alKonvertoUnuo = new Stack<string>();
 
             #region Listo de Anstataŭigo
             Dictionary<string, string> listoDeAnstataŭigo = new Dictionary<string, string> {
@@ -28,6 +29,21 @@ namespace CalcConsoleAug
                     { "konstc", "299792458"},
                     { "lumrapido", "299792458"},
 
+                //tempo
+                {"tagoj al horoj", "*24" },
+                {"tagoj al horoj", "*24" },
+                {"horoj al minutoj", "*60" },
+                {"horo al minuto", "*60" },
+                {"h al min", "*60" },
+                { "horoj al sekundoj", "*60*60" },
+                {"horo al sekundo", "*60*60" },
+                {"h al sek", "*60*60" },
+                {"h al s", "*60*60" },
+                {"minutoj al sekundoj", "*60" },
+                {"minuto al sekundo", "*60" },
+                {"min al sek", "*60" },
+                {"min al s", "*60" },
+                
                     //kilometro
                     
                     {"km al pm", "*1000000000000000"},
@@ -206,6 +222,13 @@ namespace CalcConsoleAug
                     }
                     listoDeAnstataŭigo.Add(varNomo, varEnhavo);
                     //Console.WriteLine($"varNomo estas {varNomo} kaj varEnhavo estas {varEnhavo}");
+                }
+
+                if (enigita.Contains("al") || enigita.Contains("en"))
+                {
+                    var disigitaEnhavo = enigita.Split();
+                    var lastaUnuo = disigitaEnhavo[disigitaEnhavo.Length - 1];
+                    alKonvertoUnuo.Push(lastaUnuo);
                 }
 
                 string enigitaPostKonverto = enigita;
@@ -395,8 +418,9 @@ namespace CalcConsoleAug
                     rezultStako.Push(rezulto);
                     if (rezulto % 2 == 0)
                     {
+                        string testo = alKonvertoUnuo.Peek();
                         string montruĈiTiun = Convert.ToDouble(rezulto).ToString("#,##0");
-                        Console.WriteLine($">> {montruĈiTiun.Replace(".", ",")}");
+                        Console.WriteLine($">> {montruĈiTiun.Replace(".", ",")} {testo}");
                     }
                     else
                     {
@@ -413,7 +437,7 @@ namespace CalcConsoleAug
                 }
                 #endregion
 
-                
+
 
             }
         }
