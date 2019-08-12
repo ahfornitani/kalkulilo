@@ -1,0 +1,14 @@
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\hostpolicy.dll
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\hostfxr.dll
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.exe
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.deps.json
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.runtimeconfig.json
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.runtimeconfig.dev.json
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.dll
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Release\netcoreapp2.2\win-x64\CalcConsoleAug.pdb
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.csprojAssemblyReference.cache
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.csproj.CoreCompileInputs.cache
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.AssemblyInfoInputs.cache
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.AssemblyInfo.cs
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.dll
+C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Release\netcoreapp2.2\win-x64\CalcConsoleAug.pdb
