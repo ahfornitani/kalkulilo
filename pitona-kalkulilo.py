@@ -25,6 +25,8 @@ while(True):
     else:
         print("Foriru!")
 
+#nur por testi git sync
+
 
 #  // se entajpita cheno enhavas "kpd" (kiel procentajho de), kalkuli adekvate
 #                 if (enigita.Contains(("kpd")))
