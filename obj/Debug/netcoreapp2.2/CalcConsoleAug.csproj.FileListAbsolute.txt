@@ -20,13 +20,24 @@ C:/Users/Augusto Fornitani/source/repos/CalcConsoleAug/obj/Debug/netcoreapp2.2/C
 /Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfo.cs
 /Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.dll
 /Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.pdb
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.deps.json
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.runtimeconfig.json
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.runtimeconfig.dev.json
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.dll
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.pdb
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.csproj.CoreCompileInputs.cache
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.AssemblyInfoInputs.cache
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.AssemblyInfo.cs
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.dll
-C:\Users\Augusto Fornitani\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.pdb
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.deps.json
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.runtimeconfig.json
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.runtimeconfig.dev.json
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.dll
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.pdb
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.csproj.CoreCompileInputs.cache
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfoInputs.cache
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfo.cs
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.dll
+C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.pdb
+/home/ahfac/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.deps.json
+/home/ahfac/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.runtimeconfig.json
+/home/ahfac/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.runtimeconfig.dev.json
+/home/ahfac/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.dll
+/home/ahfac/Documents/GitLab/kalkulilo/bin/Debug/netcoreapp2.2/CalcConsoleAug.pdb
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.csprojAssemblyReference.cache
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.csproj.CoreCompileInputs.cache
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfoInputs.cache
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfo.cs
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.dll
+/home/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.pdb

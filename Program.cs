@@ -16,7 +16,7 @@ namespace CalcConsoleAug
             Console.OutputEncoding = Encoding.UTF8;
 
             // Ĉi tiu stako konservas antaŭajn rezultojn
-            Stack<decimal> rezultStako = new Stack<decimal>();
+            Stack<double> rezultStako = new Stack<double>();
             Stack<string> alKonvertoUnuo = new Stack<string>();
 
 
@@ -109,6 +109,7 @@ namespace CalcConsoleAug
                 {"kpd", ""},
                 {"oble", "*"},
                 {"proc de", "/100*"},
+                {"procde", "/100*"},
                 {"proc", "/100*"},
                 {"elc de", "/100*"},
                 {"elc", "/100*"},
@@ -304,15 +305,15 @@ namespace CalcConsoleAug
                         //Farenhejtaj konvertoj
                         if (ero.Contains("f al") || ero.Contains("f en"))
                         {
-                            if (ero.EndsWith("c"))
+                            if (ero.EndsWith("c", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo - 32) / 1.8;
                             }
-                            else if (ero.EndsWith("k"))
+                            else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 459.67) * 5 / 9;
                             }
-                            else if (ero.EndsWith("r"))
+                            else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 459.67);
                             }
@@ -321,15 +322,15 @@ namespace CalcConsoleAug
                         //Celsiaj konvertoj
                         if (ero.Contains("c al") || ero.Contains("c en"))
                         {
-                            if (ero.EndsWith("f"))
+                            if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo * 1.8) + 32;
                             }
-                            else if (ero.EndsWith("k"))
+                            else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo + 273.15;
                             }
-                            else if (ero.EndsWith("r"))
+                            else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 273.15) * 9 / 5;
                             }
@@ -338,7 +339,7 @@ namespace CalcConsoleAug
                         //Kelvinaj konvertoj
                         if (ero.Contains("k al") || ero.Contains("k en"))
                         {
-                            if (ero.EndsWith("f"))
+                            if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo * 9 / 5) - 459.67;
                             }
@@ -346,7 +347,7 @@ namespace CalcConsoleAug
                             {
                                 alTemperaturo = deTemperaturo - 273.15;
                             }
-                            else if (ero.EndsWith("r"))
+                            else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo * 9 / 5;
                             }
@@ -355,22 +356,22 @@ namespace CalcConsoleAug
                         //Reaumuraj konvertoj
                         if (ero.Contains("r al") || ero.Contains("r en"))
                         {
-                            if (ero.EndsWith("f"))
+                            if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo - 459.67;
                             }
-                            else if (ero.EndsWith("c"))
+                            else if (ero.EndsWith("c", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo - 491.67) * 5 / 9;
                             }
-                            else if (ero.EndsWith("k"))
+                            else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo * 5 / 9;
                             }
                         }
 
                         enigita = alTemperaturo.ToString(CultureInfo.CurrentCulture);
-                        rezultStako.Push(Convert.ToDecimal(alTemperaturo));
+                        rezultStako.Push(Convert.ToDouble(alTemperaturo));
                     }
                 }
 
@@ -460,7 +461,7 @@ namespace CalcConsoleAug
 
                 try
                 {
-                    decimal rezulto = Convert.ToDecimal(new DataTable().Compute(enigita, null));
+                    double rezulto = Convert.ToDouble(new DataTable().Compute(enigita, null));
                     rezultStako.Push(rezulto);
                     //string testo = alKonvertoUnuo.Pop();
                     if (rezulto % 2 == 0)

@@ -1,13 +1,13 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
+    "projectUniqueName": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
     "projectName": "CalcConsoleAug",
-    "projectPath": "/Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
-    "outputPath": "/Volumes/BOOTCAMP/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/",
+    "projectPath": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
+    "outputPath": "/home/ahfac/Documents/GitLab/kalkulilo/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
-      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+      "/usr/share/dotnet/sdk/NuGetFallbackFolder"
     ],
     "originalTargetFrameworks": [
       "netcoreapp2.2"
@@ -34,10 +34,6 @@
           "target": "Package",
           "version": "[2.2.0, )",
           "autoReferenced": true
-        },
-        "Newtonsoft.Json": {
-          "target": "Package",
-          "version": "[12.0.2, )"
         }
       },
       "imports": [

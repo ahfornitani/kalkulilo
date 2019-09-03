@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
-    <e p="$USER_HOME$/Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_CalcConsoleAug.1623708700.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.2/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.2/system/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_CalcConsoleAug.-722425022.00" t="ExcludeRecursive" />
     <e p="$PROJECT_DIR$" t="IncludeRecursive">
-      <e p="bin" t="ExcludeRecursive" />
       <e p="CalcConsoleAug.csproj" t="IncludeRecursive" />
       <e p="CalcConsoleAug.sln" t="IncludeFlat" />
       <e p="FalC.cs" t="Include" />
-      <e p="kalkulilo.py" t="Include" />
-      <e p="obj" t="ExcludeRecursive">
-        <e p="Release" t="Include">
-          <e p="netcoreapp2.2" t="Include">
-            <e p="CalcConsoleAug.AssemblyInfo.cs" t="Include" />
-          </e>
-        </e>
-      </e>
-      <e p="packages" t="ExcludeRecursive" />
-      <e p="plurlingva.bkp" t="Include" />
       <e p="Program.cs" t="Include" />
       <e p="Properties" t="Include">
         <e p="PublishProfiles" t="Include">
@@ -25,6 +14,24 @@
         </e>
       </e>
       <e p="README.md" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="icon" t="Include">
+        <e p="kalkulilo.png" t="Include" />
+        <e p="kalkulilo.svg" t="Include" />
+        <e p="noun_calc_1781947.svg" t="Include" />
+        <e p="terminal_noun_terminal_334312.svg" t="Include" />
+      </e>
+      <e p="kalkulilo.py" t="Include" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.2" t="Include">
+            <e p="CalcConsoleAug.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="pitona-kalkulilo.py" t="Include" />
+      <e p="plurlingva.bkp" t="Include" />
       <e p="rubaĵo.bkp" t="Include" />
       <e p="savkopio.bkp" t="Include" />
     </e>

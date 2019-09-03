@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Augusto Fornitani\\Documents\\GitLab\\kalkulilo\\CalcConsoleAug.csproj": {}
+    "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Augusto Fornitani\\Documents\\GitLab\\kalkulilo\\CalcConsoleAug.csproj": {
+    "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Augusto Fornitani\\Documents\\GitLab\\kalkulilo\\CalcConsoleAug.csproj",
+        "projectUniqueName": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
         "projectName": "CalcConsoleAug",
-        "projectPath": "C:\\Users\\Augusto Fornitani\\Documents\\GitLab\\kalkulilo\\CalcConsoleAug.csproj",
-        "packagesPath": "C:\\Users\\Augusto Fornitani\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Augusto Fornitani\\Documents\\GitLab\\kalkulilo\\obj\\",
+        "projectPath": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
+        "packagesPath": "/home/ahfac/.nuget/packages/",
+        "outputPath": "/home/ahfac/Documents/GitLab/kalkulilo/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Augusto Fornitani\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/ahfac/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,10 +44,6 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[12.0.2, )"
             }
           },
           "imports": [
