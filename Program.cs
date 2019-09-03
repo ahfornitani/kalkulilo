@@ -10,8 +10,8 @@ namespace CalcConsoleAug
     {
         private static void Main(string[] args)
         {
-            // havi kulturon kiel pt-BR por milo-apartigiloj (ekz-e 10.000 anstatau 10000)
-            // ankau havi UTF8 por bela chapeloj en konzolo
+            // havi kulturon kiel pt-BR por milo-apartigiloj (ekz-e 10.000 anstataŭ 10000)
+            // ankaŭ havi UTF8 por belaj ĉapeloj en konzolo
             CultureInfo miaKulturo = new CultureInfo("pt-BR", false);
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -22,7 +22,7 @@ namespace CalcConsoleAug
 
             #region Listo de Anstataŭigo
 
-            // Chi tiu listo estas uzata por shanghi entajpitan tekston egalan al Dict.Key al tekso egala al Dict.Value 
+            // Ĉi tiu listo estas uzata por ŝanĝi entajpitan tekston egalan al Dict.Key al tekso egala al Dict.Value 
             Dictionary<string, string> listoDeAnstataŭigo = new Dictionary<string, string>
             {
                 //konstantoj
@@ -209,7 +209,7 @@ namespace CalcConsoleAug
 
             #endregion Listo de Anstataŭigo
 
-            // porchiama ripetanta while por ke kalkulilo ne chesu
+            // porĉiama ripetanta while por ke kalkulilo ne ĉesu
             while (true)
             {
                 // # produktas komenton
@@ -217,7 +217,7 @@ namespace CalcConsoleAug
                 // minuskle, por faciligi
                 string enigita = originala[0].ToLower();
 
-                // se entajpita cheno enhavas "kpd" (kiel procentajho de), kalkuli adekvate
+                // se entajpita ĉeno enhavas "kpd" (kiel procentaĵo de), kalkuli adekvate
                 if (enigita.Contains(("kpd")))
                 {
                     string[] disigita = enigita.Split("kpd");
@@ -244,7 +244,7 @@ namespace CalcConsoleAug
                     //Console.WriteLine($"varNomo estas {varNomo} kaj varEnhavo estas {varEnhavo}");
                 }
 
-                // "en" kaj "al" indikas konverto
+                // "en" kaj "al" indikas konverton
                 if (enigita.Contains("al") || enigita.Contains("en"))
                 {
                     var disigitaEnhavo = enigita.Split();
@@ -288,7 +288,7 @@ namespace CalcConsoleAug
                     "r al k", "r en k", "r en k", "r al k",
                 };
 
-                // konsulti chiujn valorojn en la listo.
+                // konsulti ĉiujn valorojn en la listo.
                 // se valoro ekzistas, konsulti la lastan signon, por decidi al kio konverti
                 foreach (string ero in temperaturoDeAl)
                 {
@@ -297,9 +297,9 @@ namespace CalcConsoleAug
                         string enigitaKopio = enigitaPostKonverto;
                         string[] disigita = enigitaKopio.Split(ero);
                         //"deTemperaturo" estas unua valoro. Ekz-e "50 f al c" > deTemperaturo == 50
-                        //nuligi grad-signon, char ghi nur malhelpas kalkuli
+                        //nuligi grad-signon, ĉar ĝi nur malhelpas kalkuli
                         double deTemperaturo = Convert.ToDouble(disigita[0].Replace("°", String.Empty));
-                        //alTemperaturo estas la fino rezulto. Ekz-e "50 f al c" > alTemperaturo == 10
+                        //alTemperaturo estas la fina rezulto. Ekz-e "50 f al c" > alTemperaturo == 10
                         double alTemperaturo = 0;
 
                         //Farenhejtaj konvertoj
@@ -353,7 +353,7 @@ namespace CalcConsoleAug
                             }
                         }
 
-                        //Reaumuraj konvertoj
+                        //Reaŭmuraj konvertoj
                         if (ero.Contains("r al") || ero.Contains("r en"))
                         {
                             if (ero.EndsWith("f", StringComparison.CurrentCulture))
@@ -379,7 +379,7 @@ namespace CalcConsoleAug
 
                 #region Radikoj
 
-                //kontroli, chu "kvr" enestas la chenon entajpitan. Se jes, kalkuli kvadratran radikon
+                //kontroli, ĉu "kvr" enestas la ĉenon entajpitan. Se jes, kalkuli kvadratan radikon
                 if (enigita.Contains("kvr"))
                 {
                     string enigitaKopio = enigitaPostKonverto;
@@ -478,7 +478,6 @@ namespace CalcConsoleAug
                 catch (Exception escepto)
                 {
                     Console.WriteLine("Nevalida kalkulo");
-                    //Console.WriteLine(Forfikiĝu("omg"));
                     Console.WriteLine(escepto);
                 }
 
@@ -493,11 +492,6 @@ namespace CalcConsoleAug
 
         //static double AlTemperaturo()
         //{
-        //}
-
-        //static string Forfikiĝu(string nomo)
-        //{
-        //    return $"Vi Forfikiĝu, fia {nomo}!";
         //}
     }
 }
