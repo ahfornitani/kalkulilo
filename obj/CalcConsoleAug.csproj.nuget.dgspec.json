@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {}
+    "/Users/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {}
   },
   "projects": {
-    "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {
+    "/Users/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
+        "projectUniqueName": "/Users/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
         "projectName": "CalcConsoleAug",
-        "projectPath": "/home/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
-        "packagesPath": "/home/ahfac/.nuget/packages/",
-        "outputPath": "/home/ahfac/Documents/GitLab/kalkulilo/obj/",
+        "projectPath": "/Users/ahfac/Documents/GitLab/kalkulilo/CalcConsoleAug.csproj",
+        "packagesPath": "/Users/ahfac/.nuget/packages/",
+        "outputPath": "/Users/ahfac/Documents/GitLab/kalkulilo/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/home/ahfac/.nuget/NuGet/NuGet.Config"
+          "/Users/ahfac/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[2.2.0, )",
               "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3-beta1, )"
             }
           },
           "imports": [

@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Text;
+using System.Net;
+using System.Web;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CalcConsoleAug
 {
@@ -100,6 +105,18 @@ namespace CalcConsoleAug
                 {"m en dam", "/10"},
                 {"m al km", "/1000"},
                 {"m en km", "/1000"},
+
+                //usonaj unuoj
+                {"colo en pm", "*25400000000"},
+                {"colo en nm", "*25400000"},
+                {"colo en μm", "*25400"},
+                {"colo en mm", "*25.4"},
+                {"colo en cm", "*2.54"},
+                {"colo en dm", "*0.254"},
+                {"colo en m", "*0.0254"},
+                {"colo en dam", "*0.00254"},
+                {"colo en hm", "*0.000254"},
+                {"colo en km", "*0.0000254"},
 
                 {"\\", ""},
                 {",", "."},
@@ -395,20 +412,52 @@ namespace CalcConsoleAug
                 #region Monaj konvertoj
 
                 // Provo konverti monon
-                string oxrAppId = "62182152dd4540d1885982f4c7685897";
-                List<string> listoDeValutoj = new List<string> {"BRL", "CAD", "USD", "NZD", "GBP",};
+                // string oxrAppId = "62182152dd4540d1885982f4c7685897";
+                List<string> listoDeValutoj = new List<string> {
+                    "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN",
+                    "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF",
+                    "CHF", "CLF", "CLP", "CNH", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP",
+                    "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF",
+                    "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK",
+                    "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK",
+                    "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MRU",
+                    "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB",
+                    "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR",
+                    "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "SSP", "STD", "STN", "SVC", "SYP", "SZL", "THB",
+                    "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF",
+                    "VES", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XDR", "XOF", "XPD", "XPF", "XPT", "YER",
+                    "ZAR", "ZMW", "ZWL", };
                 string rezultoMonKonverto =
-                    $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}&base=GBP&callback=someCallbackFunction";
+                    $"https://openexchangerates.org/api/latest.json?app_id=62182152dd4540d1885982f4c7685897";
+                // $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}";
 
-                foreach (string valuto in listoDeValutoj)
-                {
-                }
+                // $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}&base=USD&callback=someCallbackFunction";
+
+                WebClient client = new WebClient();
+                string elŝutĈeno = client.DownloadString(rezultoMonKonverto);
+                int found = 0;
+                found = elŝutĈeno.IndexOf("\"rates\": {");
+                Regex regex = new Regex($"\"...\"");
+                var modCheno = elŝutĈeno
+                .Substring(found)
+                .Replace("\"rates\": {", String.Empty)
+                .Replace("}", String.Empty)
+                .Trim()
+                .Replace(",\n", "},\n") 
+                .Replace(":", ",")
+                .Trim();
+                // var modCheno = ($"{elŝutĈeno.Substring(found).Trim()}");
+                // {"bi", "*1000000000000"},
+                Console.WriteLine(modCheno);
+
+                // var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<dynamic, dynamic>>(modCheno);
+                // Console.WriteLine(htmlAttributes["BRL"]);
 
                 #endregion Monaj konvertoj
 
                 #region Antaŭaj rezultoj
 
-                List<string> rezultĈenoj = new List<string> {"res", "ant", "antaŭa", "rez",};
+                List<string> rezultĈenoj = new List<string> { "res", "ant", "antaŭa", "rez", };
 
                 foreach (string ĉeno in rezultĈenoj)
                 {
@@ -432,7 +481,7 @@ namespace CalcConsoleAug
 
                 #region Ferm-komandoj
 
-                List<string> elirKomandListo = new List<string> {"eliri()", "fermu()"};
+                List<string> elirKomandListo = new List<string> { "eliri()", "fermu()" };
                 foreach (string elirKomando in elirKomandListo)
                 {
                     if (enigita.Contains(elirKomando))
@@ -454,7 +503,7 @@ namespace CalcConsoleAug
 
                 #region Montri rezulton
 
-                List<string> unuoj = new List<string> {"m", "km", "k", "f", "c"};
+                List<string> unuoj = new List<string> { "m", "km", "k", "f", "c" };
 
                 //Preni enjtapitajn valoron, post kiam trans-ŝanĝoj okazis (ekz. "dek" -> 10)
                 // kaj fari la kalkulon
@@ -464,7 +513,7 @@ namespace CalcConsoleAug
                     double rezulto = Convert.ToDouble(new DataTable().Compute(enigita, null));
                     rezultStako.Push(rezulto);
                     //string testo = alKonvertoUnuo.Pop();
-                    if (rezulto % 2 == 0)
+                    if (Math.Abs(rezulto % 2) < 0)
                     {
                         //string montruĈiTiun = Convert.ToDouble(rezulto).ToString("#,##0");
                         string montruĈiTiun = Convert.ToDouble(rezulto).ToString(CultureInfo.CurrentCulture);

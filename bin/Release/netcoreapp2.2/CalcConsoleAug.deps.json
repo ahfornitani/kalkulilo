@@ -1,12 +1,15 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    "signature": "d94206bff16dcf89df14b913ceccdd95c7394936"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.2": {
       "CalcConsoleAug/1.0.0": {
+        "dependencies": {
+          
+        },
         "runtime": {
           "CalcConsoleAug.dll": {}
         }
