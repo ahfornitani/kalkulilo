@@ -8,6 +8,10 @@ using System.Web;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Json;
+using Z.Expressions;
+using Z.Expressions.CodeAnalysis;
+using Z.Expressions.CodeCompiler;
 
 namespace CalcConsoleAug
 {
@@ -17,7 +21,7 @@ namespace CalcConsoleAug
         {
             // havi kulturon kiel pt-BR por milo-apartigiloj (ekz-e 10.000 anstataŭ 10000)
             // ankaŭ havi UTF8 por belaj ĉapeloj en konzolo
-            CultureInfo miaKulturo = new CultureInfo("pt-BR", false);
+            CultureInfo miaKulturo = new CultureInfo("eo", false);
             Console.OutputEncoding = Encoding.UTF8;
 
             // Ĉi tiu stako konservas antaŭajn rezultojn
@@ -246,9 +250,16 @@ namespace CalcConsoleAug
                 // = simbolo indikas variablon
                 if (enigita.Contains("="))
                 {
+                    // apartigi per = simbolo. Unua parto estas nomo de variablo
+                    // dua parto estas la enhavo (valoro)
                     var varDisigita = enigita.Split("=");
                     var varNomo = varDisigita[0].Trim();
                     var varEnhavo = $"({varDisigita[1].Trim()})*1";
+
+                    // se ŝlosilo el la listo enestas enhavo-ĉenon
+                    // do prenu la valoron de la ŝlosilo kaj anstataŭigi je enhavo-ĉeno
+                    // ekz, se varEnhavo enhavas "10 * lumrapido", ĝi iĝos "10 * 299792458"
+                    // do la variablo estos varNomo = 10 * 299792458
                     foreach (var ŝlosilo in listoDeAnstataŭigo.Keys)
                     {
                         if (varEnhavo.Contains(ŝlosilo))
@@ -256,9 +267,7 @@ namespace CalcConsoleAug
                             varEnhavo = varEnhavo.Replace(ŝlosilo, listoDeAnstataŭigo[ŝlosilo]);
                         }
                     }
-
                     listoDeAnstataŭigo.Add(varNomo, varEnhavo);
-                    //Console.WriteLine($"varNomo estas {varNomo} kaj varEnhavo estas {varEnhavo}");
                 }
 
                 // "en" kaj "al" indikas konverton
@@ -396,6 +405,10 @@ namespace CalcConsoleAug
 
                 #region Radikoj
 
+                var types = listoDeAnstataŭigo.ToDictionary(x => x.Key, x => x.Value.GetType());
+                var compiled = Eval.Compile(enigita, types);
+                var rezultoj = compiled(listoDeAnstataŭigo);
+
                 //kontroli, ĉu "kvr" enestas la ĉenon entajpitan. Se jes, kalkuli kvadratan radikon
                 if (enigita.Contains("kvr"))
                 {
@@ -403,7 +416,8 @@ namespace CalcConsoleAug
                     string[] disigita = enigitaKopio.Split("kvr");
                     string bazo = disigita[1];
 
-                    enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                    // enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                    enigita = compiled.ToString();
                 }
 
                 #endregion
@@ -412,7 +426,7 @@ namespace CalcConsoleAug
                 #region Monaj konvertoj
 
                 // Provo konverti monon
-                // string oxrAppId = "62182152dd4540d1885982f4c7685897";
+                string oxrAppId = "62182152dd4540d1885982f4c7685897";
                 List<string> listoDeValutoj = new List<string> {
                     "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN",
                     "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF",
@@ -427,31 +441,52 @@ namespace CalcConsoleAug
                     "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF",
                     "VES", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XDR", "XOF", "XPD", "XPF", "XPT", "YER",
                     "ZAR", "ZMW", "ZWL", };
-                string rezultoMonKonverto =
-                    $"https://openexchangerates.org/api/latest.json?app_id=62182152dd4540d1885982f4c7685897";
-                // $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}";
 
-                // $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}&base=USD&callback=someCallbackFunction";
+                foreach (var valuto in listoDeValutoj)
+                {
+                    if (enigita.Contains(valuto))
+                    {
+                        Console.WriteLine("HAHHAHAHAHA");
+                        string enigitaKopio = enigitaPostKonverto;
+                        string[] disigita = enigitaKopio.Split(valuto);
+                        //"deTemperaturo" estas unua valoro. Ekz-e "2 BRL al CAD" > deValuto == 2
+                        decimal deValuto = Convert.ToDecimal(disigita[0]);
+                        //alValuto estas la fina rezulto. Ekz-e "2 BRL al CAD" > alValuto == 5.2
+                        decimal alValuto = 0;
+                        string rezultoMonKonverto = $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}";
 
-                WebClient client = new WebClient();
-                string elŝutĈeno = client.DownloadString(rezultoMonKonverto);
-                int found = 0;
-                found = elŝutĈeno.IndexOf("\"rates\": {");
-                Regex regex = new Regex($"\"...\"");
-                var modCheno = elŝutĈeno
-                .Substring(found)
-                .Replace("\"rates\": {", String.Empty)
-                .Replace("}", String.Empty)
-                .Trim()
-                .Replace(",\n", "},\n") 
-                .Replace(":", ",")
-                .Trim();
-                // var modCheno = ($"{elŝutĈeno.Substring(found).Trim()}");
-                // {"bi", "*1000000000000"},
-                Console.WriteLine(modCheno);
+                        WebClient client = new WebClient();
+                        string elŝutĈeno = client.DownloadString(rezultoMonKonverto);
+                        // Console.WriteLine(elŝutĈeno);
 
-                // var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<dynamic, dynamic>>(modCheno);
-                // Console.WriteLine(htmlAttributes["BRL"]);
+
+                        int found = 0;
+                        found = elŝutĈeno.IndexOf("\"rates\": {");
+                        var modĈeno = elŝutĈeno
+                        .Substring(found)
+                        .Replace("\"rates\": {", String.Empty)
+                        .Replace("}", String.Empty)
+                        .Replace("\"", "'")
+                        .Replace(":", ": '")
+                        .Replace(",", "',")
+                        .Replace(" ", String.Empty)
+                        .ToLower()
+                        .Trim();
+                        modĈeno += "'";
+                        Console.WriteLine(modĈeno);
+
+
+                        string json = $"{{{modĈeno}}}";
+
+                        var jsonAlVortaro = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+                        foreach (var item in jsonAlVortaro)
+                        {
+                            Console.WriteLine($"{item.Key} valoras {item.Value}");
+                        }
+                    }
+                }
+
 
                 #endregion Monaj konvertoj
 
@@ -481,7 +516,7 @@ namespace CalcConsoleAug
 
                 #region Ferm-komandoj
 
-                List<string> elirKomandListo = new List<string> { "eliri()", "fermu()" };
+                List<string> elirKomandListo = new List<string> { "eliri()", "eliri", "fermu()" };
                 foreach (string elirKomando in elirKomandListo)
                 {
                     if (enigita.Contains(elirKomando))
