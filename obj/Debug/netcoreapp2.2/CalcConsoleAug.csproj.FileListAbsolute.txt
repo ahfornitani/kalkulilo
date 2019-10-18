@@ -52,3 +52,13 @@ C:/Users/Augusto Fornitani/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/Ca
 /Users/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.AssemblyInfo.cs
 /Users/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.dll
 /Users/ahfac/Documents/GitLab/kalkulilo/obj/Debug/netcoreapp2.2/CalcConsoleAug.pdb
+C:\Users\Augusto\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.deps.json
+C:\Users\Augusto\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.runtimeconfig.json
+C:\Users\Augusto\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.runtimeconfig.dev.json
+C:\Users\Augusto\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.dll
+C:\Users\Augusto\Documents\GitLab\kalkulilo\bin\Debug\netcoreapp2.2\CalcConsoleAug.pdb
+C:\Users\Augusto\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.csprojAssemblyReference.cache
+C:\Users\Augusto\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.AssemblyInfoInputs.cache
+C:\Users\Augusto\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.AssemblyInfo.cs
+C:\Users\Augusto\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.dll
+C:\Users\Augusto\Documents\GitLab\kalkulilo\obj\Debug\netcoreapp2.2\CalcConsoleAug.pdb
