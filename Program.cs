@@ -27,6 +27,7 @@ namespace CalcConsoleAug
             // Ĉi tiu stako konservas antaŭajn rezultojn
             Stack<double> rezultStako = new Stack<double>();
             Stack<string> alKonvertoUnuo = new Stack<string>();
+            Stack<string> finaSimbolo = new Stack<string>();
 
 
             #region Listo de Anstataŭigo
@@ -175,6 +176,7 @@ namespace CalcConsoleAug
                 {"sescent", "600"},
                 {"sepcent", "700"},
                 {"okcent", "800"},
+                {"naucent", "900"},
                 {"naŭcent", "900"},
                 {"foje", "*"},
                 {"foj", "*"},
@@ -245,6 +247,17 @@ namespace CalcConsoleAug
                     string x = disigita[0];
                     string y = disigita[disigita.Length - 1];
                     enigita = $"{x}/{y}*100";
+                    finaSimbolo.Push("%");
+                }
+
+                //se entajpita ĉeno enhavas "exp" (ekz. 78 exp 15 = 78 estas 15 procentoj de kio?)
+                if (enigita.Contains(("exp")))
+                {
+                    string[] disigita = enigita.Split("exp");
+                    string x = disigita[0];
+                    string y = disigita[disigita.Length - 1];
+                    enigita = $"{x}/({y}/100)";
+                    // finaSimbolo.Push("%");
                 }
 
                 // = simbolo indikas variablon
@@ -334,14 +347,17 @@ namespace CalcConsoleAug
                             if (ero.EndsWith("c", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo - 32) / 1.8;
+                                finaSimbolo.Push("°C");
                             }
                             else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 459.67) * 5 / 9;
+                                finaSimbolo.Push("K");
                             }
                             else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 459.67);
+                                finaSimbolo.Push("°R");
                             }
                         }
 
@@ -351,14 +367,17 @@ namespace CalcConsoleAug
                             if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo * 1.8) + 32;
+                                finaSimbolo.Push("°F");
                             }
                             else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo + 273.15;
+                                finaSimbolo.Push("K");
                             }
                             else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo + 273.15) * 9 / 5;
+                                finaSimbolo.Push("°R");
                             }
                         }
 
@@ -368,14 +387,17 @@ namespace CalcConsoleAug
                             if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo * 9 / 5) - 459.67;
+                                finaSimbolo.Push("°F");
                             }
                             else if (ero.EndsWith("c"))
                             {
                                 alTemperaturo = deTemperaturo - 273.15;
+                                finaSimbolo.Push("°C");
                             }
                             else if (ero.EndsWith("r", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo * 9 / 5;
+                                finaSimbolo.Push("°R");
                             }
                         }
 
@@ -385,14 +407,17 @@ namespace CalcConsoleAug
                             if (ero.EndsWith("f", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo - 459.67;
+                                finaSimbolo.Push("°F");
                             }
                             else if (ero.EndsWith("c", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = (deTemperaturo - 491.67) * 5 / 9;
+                                finaSimbolo.Push("°C");
                             }
                             else if (ero.EndsWith("k", StringComparison.CurrentCulture))
                             {
                                 alTemperaturo = deTemperaturo * 5 / 9;
+                                finaSimbolo.Push("K");
                             }
                         }
 
@@ -405,9 +430,9 @@ namespace CalcConsoleAug
 
                 #region Radikoj
 
-                var types = listoDeAnstataŭigo.ToDictionary(x => x.Key, x => x.Value.GetType());
-                var compiled = Eval.Compile(enigita, types);
-                var rezultoj = compiled(listoDeAnstataŭigo);
+                // var types = listoDeAnstataŭigo.ToDictionary(x => x.Key, x => x.Value.GetType());
+                // var compiled = Eval.Compile(enigita, types);
+                // var rezultoj = compiled(listoDeAnstataŭigo);
 
                 //kontroli, ĉu "kvr" enestas la ĉenon entajpitan. Se jes, kalkuli kvadratan radikon
                 if (enigita.Contains("kvr"))
@@ -416,8 +441,8 @@ namespace CalcConsoleAug
                     string[] disigita = enigitaKopio.Split("kvr");
                     string bazo = disigita[1];
 
-                    // enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
-                    enigita = compiled.ToString();
+                    enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                    // enigita = compiled.ToString();
                 }
 
                 #endregion
@@ -547,16 +572,26 @@ namespace CalcConsoleAug
                 {
                     double rezulto = Convert.ToDouble(new DataTable().Compute(enigita, null));
                     rezultStako.Push(rezulto);
+                    string finaSimboloStr = "";
+
+                    if(finaSimbolo.Count() != 0)
+                    {
+                        // Console.WriteLine($"Jen la fina simbolo: {finaSimbolo.Peek()}");
+                        finaSimboloStr = finaSimbolo.Peek();
+                    }
+
                     //string testo = alKonvertoUnuo.Pop();
                     if (Math.Abs(rezulto % 2) < 0)
                     {
                         //string montruĈiTiun = Convert.ToDouble(rezulto).ToString("#,##0");
                         string montruĈiTiun = Convert.ToDouble(rezulto).ToString(CultureInfo.CurrentCulture);
-                        Console.WriteLine($">> {montruĈiTiun.Replace(".", ",")}");
+                        Console.WriteLine($">> {montruĈiTiun.Replace(".", ",")} {finaSimboloStr}");
+                        finaSimbolo.Clear();
                     }
                     else
                     {
-                        Console.WriteLine($">> {rezulto.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}");
+                        Console.WriteLine($">> {rezulto.ToString(CultureInfo.CurrentCulture).Replace(".", ",")} {finaSimboloStr}");
+                        finaSimbolo.Clear();
                     }
                 }
                 catch (Exception escepto)
