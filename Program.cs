@@ -53,6 +53,10 @@ namespace CalcConsoleAug
                 {"horo al sekundo", "*60*60"},
                 {"h al sek", "*60*60"},
                 {"h al s", "*60*60"},
+                {"minutoj al horo", "/60"},
+                {"minutoj al horoj", "/60"},
+                {"minuto al horo", "/60"},
+                {"min al h", "/60"},
                 {"minutoj al sekundoj", "*60"},
                 {"minuto al sekundo", "*60"},
                 {"min al sek", "*60"},
@@ -133,6 +137,7 @@ namespace CalcConsoleAug
                 {"proc de", "/100*"},
                 {"procde", "/100*"},
                 {"proc", "/100*"},
+                {"pd", "/100*"},
                 {"elc de", "/100*"},
                 {"elc", "/100*"},
                 {"dudek", "20"},
@@ -447,6 +452,21 @@ namespace CalcConsoleAug
 
                 #endregion
 
+                #region Potencoj
+                // Potenci laŭ bazo kaj potenco entajpitiaj
+                if (enigita.Contains("pot"))
+                {
+                    string enigitaKopio = enigitaPostKonverto;
+                    string[] disigita = enigitaKopio.Split("pot");
+                    string bazo = disigita[0];
+                    string potenco = disigita[1];
+
+                    enigita = Potenci(Convert.ToDouble(bazo), Convert.ToDouble(potenco)).ToString(CultureInfo.CurrentCulture);
+                }
+
+
+                #endregion
+
 
                 #region Monaj konvertoj
 
@@ -471,7 +491,6 @@ namespace CalcConsoleAug
                 {
                     if (enigita.Contains(valuto))
                     {
-                        Console.WriteLine("HAHHAHAHAHA");
                         string enigitaKopio = enigitaPostKonverto;
                         string[] disigita = enigitaKopio.Split(valuto);
                         //"deTemperaturo" estas unua valoro. Ekz-e "2 BRL al CAD" > deValuto == 2
@@ -574,7 +593,7 @@ namespace CalcConsoleAug
                     rezultStako.Push(rezulto);
                     string finaSimboloStr = "";
 
-                    if(finaSimbolo.Count() != 0)
+                    if (finaSimbolo.Count() != 0)
                     {
                         // Console.WriteLine($"Jen la fina simbolo: {finaSimbolo.Peek()}");
                         finaSimboloStr = finaSimbolo.Peek();
@@ -607,6 +626,11 @@ namespace CalcConsoleAug
         private static double Kvadrata(double numero)
         {
             return Math.Sqrt(numero);
+        }
+
+        private static double Potenci(double bazo, double potenco)
+        {
+            return Math.Pow(bazo, potenco);
         }
 
         //static double AlTemperaturo()
