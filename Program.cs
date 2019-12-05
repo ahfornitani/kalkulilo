@@ -457,8 +457,19 @@ namespace CalcConsoleAug
                     string[] disigita = enigitaKopio.Split("kvr");
                     string bazo = disigita[1];
 
+                    // ĉu estas "res" por antaŭa rezulto?
+                    double rezulto = rezultStako.Peek();
+                    if (rezulto != 0)
+                    {
+                        if (bazo.Contains("res"))
+                        {
+                            bazo = rezultStako.Peek().ToString();
+                            enigita = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                        }
+
+                    }
                     enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
-                    // enigita = compiled.ToString();
+
                 }
 
                 //rondigi nombron
@@ -468,6 +479,7 @@ namespace CalcConsoleAug
                     string[] disigita = enigitaKopio.Split("rond");
                     string rondigota = disigita[1];
 
+                    // ĉu estas "res" por antaŭa rezulto?
                     double rezulto = rezultStako.Peek();
                     if (rezulto != 0)
                     {
@@ -488,12 +500,44 @@ namespace CalcConsoleAug
 
                 #region Potencoj
                 // Potenci laŭ bazo kaj potenco entajpitiaj
-                if (enigita.Contains("pot"))
+                if (enigita.Contains("pot") || enigita.Contains("^"))
                 {
                     string enigitaKopio = enigitaPostKonverto;
                     string[] disigita = enigitaKopio.Split("pot");
                     string bazo = disigita[0];
                     string potenco = disigita[1];
+
+
+                    if (rezultStako.Count == 0)
+                    {
+                        //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                        Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                    }
+                    else
+                    {
+                        //se stako havas valorojn, preni lastan por kalkuli
+                        // ĉu estas "res" por antaŭa rezulto?
+                        double rezulto = rezultStako.Peek();
+                        if (rezulto != 0)
+                        {
+
+                            if (bazo.Contains("res") && potenco.Contains("res"))
+                            {
+                                potenco = bazo = rezulto.ToString();
+                            }
+
+                            if (bazo.Contains("res"))
+                            {
+                                bazo = rezulto.ToString();
+                            }
+                            else if (potenco.Contains("res"))
+                            {
+                                potenco = rezulto.ToString();
+                            }
+
+
+                        }
+                    }
 
                     enigita = Potenci(Convert.ToDouble(bazo), Convert.ToDouble(potenco)).ToString(CultureInfo.CurrentCulture);
                 }
