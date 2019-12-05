@@ -44,6 +44,10 @@ namespace CalcConsoleAug
                 {"lumrapido", "299792458"},
 
                 //tempo
+                {"jaroj al monatoj", "*12"},
+                {"jaroj al tagoj", "*365"},
+                {"monatoj al jaroj", "/12"},
+                {"monatoj al tagoj", "*30"},
                 {"tagoj al horoj", "*24"},
                 {"tagoj al minutoj", "*24*60"},
                 {"horoj al minutoj", "*60"},
@@ -104,6 +108,12 @@ namespace CalcConsoleAug
                 {"hm en km", "/10"},
 
                 // Dekoblaj unuoj
+                {"g al kg", "/1000"},
+                {"kg al g", "*1000"},
+                {"cm al mm", "*10"},
+                {"cm al m", "/100"},
+                {"mm al cm", "/10"},
+                {"mm al m", "/100"},
                 {"m al dm", "*10"},
                 {"m en dm", "*10"},
                 {"m al cm", "*100"},
@@ -114,8 +124,9 @@ namespace CalcConsoleAug
                 {"m en dam", "/10"},
                 {"m al km", "/1000"},
                 {"m en km", "/1000"},
+                
 
-                //usonaj unuoj
+                //imperiaj unuoj
                 {"colo en pm", "*25400000000"},
                 {"colo en nm", "*25400000"},
                 {"colo en μm", "*25400"},
