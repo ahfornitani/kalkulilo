@@ -461,6 +461,29 @@ namespace CalcConsoleAug
                     // enigita = compiled.ToString();
                 }
 
+                //rondigi nombron
+                if (enigita.Contains("rond"))
+                {
+                    string enigitaKopio = enigitaPostKonverto;
+                    string[] disigita = enigitaKopio.Split("rond");
+                    string rondigota = disigita[1];
+
+                    double rezulto = rezultStako.Peek();
+                    if (rezulto != 0)
+                    {
+                        if (rondigota.Contains("res"))
+                        {
+                            rondigota = rezultStako.Peek().ToString();
+                            enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
+                        }
+
+                    }
+
+                    enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
+
+
+                }
+
                 #endregion
 
                 #region Potencoj
@@ -642,6 +665,11 @@ namespace CalcConsoleAug
         private static double Potenci(double bazo, double potenco)
         {
             return Math.Pow(bazo, potenco);
+        }
+
+        private static double Rondigi(double rondigata)
+        {
+            return Math.Round(rondigata);
         }
 
         //static double AlTemperaturo()
