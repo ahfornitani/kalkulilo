@@ -9,9 +9,6 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Json;
-using Z.Expressions;
-using Z.Expressions.CodeAnalysis;
-using Z.Expressions.CodeCompiler;
 
 namespace CalcConsoleAug
 {
@@ -19,8 +16,7 @@ namespace CalcConsoleAug
     {
         private static void Main(string[] args)
         {
-            // havi kulturon kiel pt-BR por milo-apartigiloj (ekz-e 10.000 anstataŭ 10000)
-            // ankaŭ havi UTF8 por belaj ĉapeloj en konzolo
+            // havi UTF8 por belaj ĉapeloj en konzolo
             CultureInfo miaKulturo = new CultureInfo("eo", false);
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -248,6 +244,14 @@ namespace CalcConsoleAug
 
             #endregion Listo de Anstataŭigo
 
+            #region Listo Trigonometria
+            List<string> listoSinuso = new List<string> { "sinuso", "sin", };
+            List<string> listoKosinuso = new List<string> { "kosinuso", "kosin", "kos", "cos" };
+            List<string> listoTangento = new List<string> { "tangento", "tan", "tg" };
+            List<string> listoKotangento = new List<string> { "kotangento", "kotan", "cotan", "cotg", "kot" };
+
+            #endregion
+
             // porĉiama ripetanta while por ke kalkulilo ne ĉesu
             while (true)
             {
@@ -265,6 +269,50 @@ namespace CalcConsoleAug
                     enigita = $"{x}/{y}*100";
                     finaSimbolo.Push("%");
                 }
+
+                # region Trigonometriaj funkcioj
+                foreach (var sinuso in listoSinuso)
+                {
+                    if (enigita.Contains(sinuso))
+                    {
+                        string[] disigita = enigita.Split(sinuso);
+                        string sinValoro = disigita[disigita.Length - 1];
+                        enigita = Sinuskalkulo(Convert.ToDouble(sinValoro)).ToString(CultureInfo.CurrentUICulture);
+                    }
+                }
+
+                foreach (var kosin in listoKosinuso)
+                {
+                    if (enigita.Contains(kosin))
+                    {
+                        string[] disigita = enigita.Split(kosin);
+                        string kosinusValoro = disigita[disigita.Length - 1];
+                        enigita = Kosinuskalkulo(Convert.ToDouble(kosinusValoro)).ToString(CultureInfo.CurrentUICulture);
+                    }
+                }
+
+                foreach (var tangento in listoTangento)
+                {
+                    if (enigita.Contains(tangento))
+                    {
+                        string[] disigita = enigita.Split(tangento);
+                        string tangentValoro = disigita[disigita.Length - 1];
+                        enigita = Tangentkalkulo(Convert.ToDouble(tangentValoro)).ToString(CultureInfo.CurrentUICulture);
+                    }
+                }
+
+                foreach (var kotangento in listoKotangento)
+                {
+                    if (enigita.Contains(kotangento))
+                    {
+                        string[] disigita = enigita.Split(kotangento);
+                        string kotangentValoro = disigita[disigita.Length - 1];
+                        enigita = Kotangentkalkulo(Convert.ToDouble(kotangentValoro)).ToString(CultureInfo.CurrentUICulture);
+                    }
+                }
+
+                #endregion
+
 
                 //se entajpita ĉeno enhavas "exp" (ekz. 78 exp 15 = 78 estas 15 procentoj de kio?)
                 if (enigita.Contains(("exp")))
@@ -472,6 +520,10 @@ namespace CalcConsoleAug
 
                 }
 
+                #endregion
+
+                #region Rondigo
+
                 //rondigi nombron
                 if (enigita.Contains("rond"))
                 {
@@ -488,59 +540,65 @@ namespace CalcConsoleAug
                             rondigota = rezultStako.Peek().ToString();
                             enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
                         }
-
                     }
-
                     enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
-
 
                 }
 
                 #endregion
 
+
+
                 #region Potencoj
-                // Potenci laŭ bazo kaj potenco entajpitiaj
-                if (enigita.Contains("pot") || enigita.Contains("^"))
+                List<string> potencoSimboloj = new List<string> { "pot", "^" };
+
+                foreach (var potencoSimbolo in potencoSimboloj)
                 {
-                    string enigitaKopio = enigitaPostKonverto;
-                    string[] disigita = enigitaKopio.Split("pot");
-                    string bazo = disigita[0];
-                    string potenco = disigita[1];
+                    // Potenci laŭ bazo kaj potenco entajpitiaj
+                    if (enigita.Contains(potencoSimbolo))
+                    {
+                        string enigitaKopio = enigitaPostKonverto;
+                        string[] disigita = enigitaKopio.Split(potencoSimbolo);
+                        string bazo = disigita[0];
+                        string potenco = disigita[1];
 
 
-                    if (rezultStako.Count == 0)
-                    {
-                        //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
-                        Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
-                    }
-                    else
-                    {
-                        //se stako havas valorojn, preni lastan por kalkuli
-                        // ĉu estas "res" por antaŭa rezulto?
-                        double rezulto = rezultStako.Peek();
-                        if (rezulto != 0)
+                        if (rezultStako.Count == 0)
                         {
-
-                            if (bazo.Contains("res") && potenco.Contains("res"))
-                            {
-                                potenco = bazo = rezulto.ToString();
-                            }
-
-                            if (bazo.Contains("res"))
-                            {
-                                bazo = rezulto.ToString();
-                            }
-                            else if (potenco.Contains("res"))
-                            {
-                                potenco = rezulto.ToString();
-                            }
-
-
+                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
                         }
-                    }
+                        else
+                        {
+                            //se stako havas valorojn, preni lastan por kalkuli
+                            // ĉu estas "res" por antaŭa rezulto?
+                            double rezulto = rezultStako.Peek();
+                            if (rezulto != 0)
+                            {
 
-                    enigita = Potenci(Convert.ToDouble(bazo), Convert.ToDouble(potenco)).ToString(CultureInfo.CurrentCulture);
+                                if (bazo.Contains("res") && potenco.Contains("res"))
+                                {
+                                    potenco = bazo = rezulto.ToString();
+                                }
+
+                                if (bazo.Contains("res"))
+                                {
+                                    bazo = rezulto.ToString();
+                                }
+                                else if (potenco.Contains("res"))
+                                {
+                                    potenco = rezulto.ToString();
+                                }
+
+
+                            }
+                        }
+
+                        enigita = Potenci(Convert.ToDouble(bazo), Convert.ToDouble(potenco)).ToString(CultureInfo.CurrentCulture);
+                    }
                 }
+
+
 
 
                 #endregion
@@ -704,6 +762,34 @@ namespace CalcConsoleAug
         private static double Kvadrata(double numero)
         {
             return Math.Sqrt(numero);
+        }
+
+        private static double AlAngulo(double alAngulo)
+        {
+            double radAlAngulo = Math.PI * alAngulo / 180.0;
+            return radAlAngulo;
+        }
+
+        private static double Sinuskalkulo(double sinValoro)
+        {
+            return Math.Sin(AlAngulo(sinValoro));
+        }
+
+        private static double Kosinuskalkulo(double kosinusValoro)
+        {
+            return Math.Cos(AlAngulo(kosinusValoro));
+        }
+
+        private static double Tangentkalkulo(double tangentvaloro)
+        {
+            return Math.Tan(AlAngulo(tangentvaloro));
+        }
+
+        private static double Kotangentkalkulo(double kotangentvaloro)
+        {
+            double sinValoro = Math.Sin(AlAngulo(kotangentvaloro));
+            double kosValoro = Math.Cos(AlAngulo(kotangentvaloro));
+            return kosValoro / sinValoro;
         }
 
         private static double Potenci(double bazo, double potenco)
