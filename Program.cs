@@ -133,6 +133,8 @@ namespace CalcConsoleAug
                 {"colo en dam", "*0.00254"},
                 {"colo en hm", "*0.000254"},
                 {"colo en km", "*0.0000254"},
+                {"cm al colo", "/2.54"},
+                {"cm en colo", "/2.54"},
 
                 {"\\", ""},
                 {",", "."},
@@ -270,6 +272,25 @@ namespace CalcConsoleAug
                     finaSimbolo.Push("%");
                 }
 
+                if (enigita.Contains("aver"))
+                {
+                    // string[] disigita = enigita.Split("aver");
+                    // string[] numeroj = disigita[1].Split(" ");
+
+                    var disigita = enigita.Split("aver");
+                    Console.WriteLine(disigita[0]);
+
+                    // double sumo = 0, aver = 0;
+
+                    // for (int i = 0; i < numeroj.Length; i++)
+                    // {
+                    //     sumo += Convert.ToDouble(numeroj[i]);
+                    // }
+
+                    // aver = sumo / numeroj.Length;
+                    // enigita = aver.ToString(CultureInfo.CurrentUICulture);
+                }
+
                 # region Trigonometriaj funkcioj
                 foreach (var sinuso in listoSinuso)
                 {
@@ -312,7 +333,6 @@ namespace CalcConsoleAug
                 }
 
                 #endregion
-
 
                 //se entajpita ĉeno enhavas "exp" (ekz. 78 exp 15 = 78 estas 15 procentoj de kio?)
                 if (enigita.Contains(("exp")))
@@ -493,10 +513,6 @@ namespace CalcConsoleAug
                 #endregion Temperaturaj konvertoj
 
                 #region Radikoj
-
-                // var types = listoDeAnstataŭigo.ToDictionary(x => x.Key, x => x.Value.GetType());
-                // var compiled = Eval.Compile(enigita, types);
-                // var rezultoj = compiled(listoDeAnstataŭigo);
 
                 //kontroli, ĉu "kvr" enestas la ĉenon entajpitan. Se jes, kalkuli kvadratan radikon
                 if (enigita.Contains("kvr"))
@@ -801,9 +817,5 @@ namespace CalcConsoleAug
         {
             return Math.Round(rondigata);
         }
-
-        //static double AlTemperaturo()
-        //{
-        //}
     }
 }
