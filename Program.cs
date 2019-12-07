@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Text;
-using System.Net;
-using System.Web;
-using Newtonsoft.Json;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Runtime.Serialization.Json;
 
 namespace CalcConsoleAug
 {
@@ -298,7 +293,7 @@ namespace CalcConsoleAug
                     {
                         string[] disigita = enigita.Split(sinuso);
                         string sinValoro = disigita[disigita.Length - 1];
-                        enigita = Sinuskalkulo(Convert.ToDouble(sinValoro)).ToString(CultureInfo.CurrentUICulture);
+                        enigita = TrigFunkcioj.Sinuskalkulo(Convert.ToDouble(sinValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
 
@@ -308,7 +303,7 @@ namespace CalcConsoleAug
                     {
                         string[] disigita = enigita.Split(kosin);
                         string kosinusValoro = disigita[disigita.Length - 1];
-                        enigita = Kosinuskalkulo(Convert.ToDouble(kosinusValoro)).ToString(CultureInfo.CurrentUICulture);
+                        enigita = TrigFunkcioj.Kosinuskalkulo(Convert.ToDouble(kosinusValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
 
@@ -318,7 +313,7 @@ namespace CalcConsoleAug
                     {
                         string[] disigita = enigita.Split(tangento);
                         string tangentValoro = disigita[disigita.Length - 1];
-                        enigita = Tangentkalkulo(Convert.ToDouble(tangentValoro)).ToString(CultureInfo.CurrentUICulture);
+                        enigita = TrigFunkcioj.Tangentkalkulo(Convert.ToDouble(tangentValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
 
@@ -328,7 +323,7 @@ namespace CalcConsoleAug
                     {
                         string[] disigita = enigita.Split(kotangento);
                         string kotangentValoro = disigita[disigita.Length - 1];
-                        enigita = Kotangentkalkulo(Convert.ToDouble(kotangentValoro)).ToString(CultureInfo.CurrentUICulture);
+                        enigita = TrigFunkcioj.Kotangentkalkulo(Convert.ToDouble(kotangentValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
 
@@ -523,17 +518,74 @@ namespace CalcConsoleAug
 
                     // ĉu estas "res" por antaŭa rezulto?
                     double rezulto = rezultStako.Peek();
-                    if (rezulto != 0)
+                    if (rezultStako.Count == 0)
                     {
-                        if (bazo.Contains("res"))
+                        if (enigita.Contains("res"))
                         {
-                            bazo = rezultStako.Peek().ToString();
-                            enigita = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
                         }
-
                     }
+                    else
+                    {
+                        if (rezulto != 0)
+                        {
+                            if (bazo.Contains("res"))
+                            {
+                                bazo = rezultStako.Peek().ToString();
+                                enigita = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                            }
+
+                        }
+                    }
+
                     enigita = Kvadrata(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
 
+                }
+
+                if (enigita.Contains("nrad"))
+                {
+                    string enigitaKopio = enigitaPostKonverto;
+                    string[] disigita = enigitaKopio.Split("nrad");
+                    string bazo = disigita[0];
+                    string n_radiko = disigita[1];
+
+
+                    if (rezultStako.Count == 0)
+                    {
+                        if (enigita.Contains("res"))
+                        {
+                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                        }
+                    }
+                    else
+                    {
+                        //se stako havas valorojn, preni lastan por kalkuli
+                        // ĉu estas "res" por antaŭa rezulto?
+                        double rezulto = rezultStako.Peek();
+                        if (rezulto != 0)
+                        {
+
+                            if (bazo.Contains("res") && n_radiko.Contains("res"))
+                            {
+                                n_radiko = bazo = rezulto.ToString();
+                            }
+
+                            if (bazo.Contains("res"))
+                            {
+                                bazo = rezulto.ToString();
+                            }
+                            else if (n_radiko.Contains("res"))
+                            {
+                                n_radiko = rezulto.ToString();
+                            }
+
+
+                        }
+                    }
+
+                    enigita = TrigFunkcioj.N_aRadiko(Convert.ToDouble(bazo), Convert.ToInt16(n_radiko)).ToString(CultureInfo.CurrentCulture);
                 }
 
                 #endregion
@@ -581,8 +633,11 @@ namespace CalcConsoleAug
 
                         if (rezultStako.Count == 0)
                         {
-                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
-                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                            if (enigita.Contains("res"))
+                            {
+                                //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                                Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                            }
                         }
                         else
                         {
@@ -619,71 +674,72 @@ namespace CalcConsoleAug
 
                 #endregion
 
-
                 #region Monaj konvertoj
+                /* 
 
-                // Provo konverti monon
-                string oxrAppId = "62182152dd4540d1885982f4c7685897";
-                List<string> listoDeValutoj = new List<string> {
-                    "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN",
-                    "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF",
-                    "CHF", "CLF", "CLP", "CNH", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP",
-                    "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF",
-                    "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK",
-                    "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK",
-                    "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MRU",
-                    "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB",
-                    "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR",
-                    "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "SSP", "STD", "STN", "SVC", "SYP", "SZL", "THB",
-                    "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF",
-                    "VES", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XDR", "XOF", "XPD", "XPF", "XPT", "YER",
-                    "ZAR", "ZMW", "ZWL", };
+                                // Provo konverti monon
+                                string oxrAppId = "62182152dd4540d1885982f4c7685897";
+                                List<string> listoDeValutoj = new List<string> {
+                                    "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN",
+                                    "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTC", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF",
+                                    "CHF", "CLF", "CLP", "CNH", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP",
+                                    "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GGP", "GHS", "GIP", "GMD", "GNF",
+                                    "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR", "IQD", "IRR", "ISK",
+                                    "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK",
+                                    "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRO", "MRU",
+                                    "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB",
+                                    "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR",
+                                    "SDG", "SEK", "SGD", "SHP", "SLL", "SOS", "SRD", "SSP", "STD", "STN", "SVC", "SYP", "SZL", "THB",
+                                    "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VEF",
+                                    "VES", "VND", "VUV", "WST", "XAF", "XAG", "XAU", "XCD", "XDR", "XOF", "XPD", "XPF", "XPT", "YER",
+                                    "ZAR", "ZMW", "ZWL", };
 
-                foreach (var valuto in listoDeValutoj)
-                {
-                    if (enigita.Contains(valuto))
-                    {
-                        string enigitaKopio = enigitaPostKonverto;
-                        string[] disigita = enigitaKopio.Split(valuto);
-                        //"deTemperaturo" estas unua valoro. Ekz-e "2 BRL al CAD" > deValuto == 2
-                        decimal deValuto = Convert.ToDecimal(disigita[0]);
-                        //alValuto estas la fina rezulto. Ekz-e "2 BRL al CAD" > alValuto == 5.2
-                        decimal alValuto = 0;
-                        string rezultoMonKonverto = $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}";
+                                foreach (var valuto in listoDeValutoj)
+                                {
+                                    if (enigita.Contains(valuto))
+                                    {
+                                        string enigitaKopio = enigitaPostKonverto;
+                                        string[] disigita = enigitaKopio.Split(valuto);
+                                        //"deTemperaturo" estas unua valoro. Ekz-e "2 BRL al CAD" > deValuto == 2
+                                        decimal deValuto = Convert.ToDecimal(disigita[0]);
+                                        //alValuto estas la fina rezulto. Ekz-e "2 BRL al CAD" > alValuto == 5.2
+                                        decimal alValuto = 0;
+                                        string rezultoMonKonverto = $"https://openexchangerates.org/api/latest.json?app_id={oxrAppId}";
 
-                        WebClient client = new WebClient();
-                        string elŝutĈeno = client.DownloadString(rezultoMonKonverto);
-                        // Console.WriteLine(elŝutĈeno);
-
-
-                        int found = 0;
-                        found = elŝutĈeno.IndexOf("\"rates\": {");
-                        var modĈeno = elŝutĈeno
-                        .Substring(found)
-                        .Replace("\"rates\": {", String.Empty)
-                        .Replace("}", String.Empty)
-                        .Replace("\"", "'")
-                        .Replace(":", ": '")
-                        .Replace(",", "',")
-                        .Replace(" ", String.Empty)
-                        .ToLower()
-                        .Trim();
-                        modĈeno += "'";
-                        Console.WriteLine(modĈeno);
+                                        WebClient client = new WebClient();
+                                        string elŝutĈeno = client.DownloadString(rezultoMonKonverto);
+                                        // Console.WriteLine(elŝutĈeno);
 
 
-                        string json = $"{{{modĈeno}}}";
+                                        int found = 0;
+                                        found = elŝutĈeno.IndexOf("\"rates\": {");
+                                        var modĈeno = elŝutĈeno
+                                        .Substring(found)
+                                        .Replace("\"rates\": {", String.Empty)
+                                        .Replace("}", String.Empty)
+                                        .Replace("\"", "'")
+                                        .Replace(":", ": '")
+                                        .Replace(",", "',")
+                                        .Replace(" ", String.Empty)
+                                        .ToLower()
+                                        .Trim();
+                                        modĈeno += "'";
+                                        Console.WriteLine(modĈeno);
 
-                        var jsonAlVortaro = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-                        foreach (var item in jsonAlVortaro)
-                        {
-                            Console.WriteLine($"{item.Key} valoras {item.Value}");
-                        }
-                    }
-                }
+                                        string json = $"{{{modĈeno}}}";
+
+                                        var jsonAlVortaro = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+                                        foreach (var item in jsonAlVortaro)
+                                        {
+                                            Console.WriteLine($"{item.Key} valoras {item.Value}");
+                                        }
+                                    }
+                                }
 
 
+                                */
                 #endregion Monaj konvertoj
 
                 #region Antaŭaj rezultoj
@@ -775,47 +831,16 @@ namespace CalcConsoleAug
             }
         }
 
-        private static double Kvadrata(double numero)
-        {
-            return Math.Sqrt(numero);
-        }
+        private static double Kvadrata(double numero) => Math.Sqrt(numero);
 
-        private static double AlAngulo(double alAngulo)
-        {
-            double radAlAngulo = Math.PI * alAngulo / 180.0;
-            return radAlAngulo;
-        }
 
-        private static double Sinuskalkulo(double sinValoro)
-        {
-            return Math.Sin(AlAngulo(sinValoro));
-        }
 
-        private static double Kosinuskalkulo(double kosinusValoro)
-        {
-            return Math.Cos(AlAngulo(kosinusValoro));
-        }
 
-        private static double Tangentkalkulo(double tangentvaloro)
-        {
-            return Math.Tan(AlAngulo(tangentvaloro));
-        }
 
-        private static double Kotangentkalkulo(double kotangentvaloro)
-        {
-            double sinValoro = Math.Sin(AlAngulo(kotangentvaloro));
-            double kosValoro = Math.Cos(AlAngulo(kotangentvaloro));
-            return kosValoro / sinValoro;
-        }
 
-        private static double Potenci(double bazo, double potenco)
-        {
-            return Math.Pow(bazo, potenco);
-        }
 
-        private static double Rondigi(double rondigata)
-        {
-            return Math.Round(rondigata);
-        }
+        private static double Potenci(double bazo, double potenco) => Math.Pow(bazo, potenco);
+
+        private static double Rondigi(double rondigata) => Math.Round(rondigata);
     }
 }

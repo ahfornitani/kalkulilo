@@ -2,9 +2,9 @@
 
 namespace CalcConsoleAug
 {
-    public class FalC
+    public class TemperaturKonvertoj
     {
-        public FalC()
+        public TemperaturKonvertoj()
         {
             Console.WriteLine("omg, f al c");
         }
