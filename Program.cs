@@ -833,12 +833,6 @@ namespace CalcConsoleAug
 
         private static double Kvadrata(double numero) => Math.Sqrt(numero);
 
-
-
-
-
-
-
         private static double Potenci(double bazo, double potenco) => Math.Pow(bazo, potenco);
 
         private static double Rondigi(double rondigata) => Math.Round(rondigata);
