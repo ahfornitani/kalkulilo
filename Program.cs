@@ -262,7 +262,7 @@ namespace CalcConsoleAug
                 {
                     string[] disigita = enigita.Split("kpd");
                     string x = disigita[0];
-                    string y = disigita[disigita.Length - 1];
+                    string y = disigita[^1];
                     enigita = $"{x}/{y}*100";
                     finaSimbolo.Push("%");
                 }
@@ -292,7 +292,7 @@ namespace CalcConsoleAug
                     if (enigita.Contains(sinuso))
                     {
                         string[] disigita = enigita.Split(sinuso);
-                        string sinValoro = disigita[disigita.Length - 1];
+                        string sinValoro = disigita[^1];
                         enigita = TrigFunkcioj.Sinuskalkulo(Convert.ToDouble(sinValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
@@ -302,7 +302,7 @@ namespace CalcConsoleAug
                     if (enigita.Contains(kosin))
                     {
                         string[] disigita = enigita.Split(kosin);
-                        string kosinusValoro = disigita[disigita.Length - 1];
+                        string kosinusValoro = disigita[^1];
                         enigita = TrigFunkcioj.Kosinuskalkulo(Convert.ToDouble(kosinusValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
@@ -312,7 +312,7 @@ namespace CalcConsoleAug
                     if (enigita.Contains(tangento))
                     {
                         string[] disigita = enigita.Split(tangento);
-                        string tangentValoro = disigita[disigita.Length - 1];
+                        string tangentValoro = disigita[^1];
                         enigita = TrigFunkcioj.Tangentkalkulo(Convert.ToDouble(tangentValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
@@ -322,7 +322,7 @@ namespace CalcConsoleAug
                     if (enigita.Contains(kotangento))
                     {
                         string[] disigita = enigita.Split(kotangento);
-                        string kotangentValoro = disigita[disigita.Length - 1];
+                        string kotangentValoro = disigita[^1];
                         enigita = TrigFunkcioj.Kotangentkalkulo(Convert.ToDouble(kotangentValoro)).ToString(CultureInfo.CurrentUICulture);
                     }
                 }
@@ -334,7 +334,7 @@ namespace CalcConsoleAug
                 {
                     string[] disigita = enigita.Split("exp");
                     string x = disigita[0];
-                    string y = disigita[disigita.Length - 1];
+                    string y = disigita[^1];
                     enigita = $"{x}/({y}/100)";
                     // finaSimbolo.Push("%");
                 }
@@ -366,7 +366,7 @@ namespace CalcConsoleAug
                 if (enigita.Contains("al") || enigita.Contains("en"))
                 {
                     var disigitaEnhavo = enigita.Split();
-                    var lastaUnuo = disigitaEnhavo[disigitaEnhavo.Length - 1];
+                    var lastaUnuo = disigitaEnhavo[^1];
                     alKonvertoUnuo.Push(lastaUnuo);
                 }
 
@@ -533,7 +533,7 @@ namespace CalcConsoleAug
                             if (bazo.Contains("res"))
                             {
                                 bazo = rezultStako.Peek().ToString();
-                                enigita = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
+                                _ = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
                             }
 
                         }
@@ -606,7 +606,7 @@ namespace CalcConsoleAug
                         if (rondigota.Contains("res"))
                         {
                             rondigota = rezultStako.Peek().ToString();
-                            enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
+                            _ = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
                         }
                     }
                     enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
@@ -790,7 +790,7 @@ namespace CalcConsoleAug
 
                 #region Montri rezulton
 
-                List<string> unuoj = new List<string> { "m", "km", "k", "f", "c" };
+                _ = new List<string> { "m", "km", "k", "f", "c" };
 
                 //Preni enjtapitajn valoron, post kiam trans-ŝanĝoj okazis (ekz. "dek" -> 10)
                 // kaj fari la kalkulon
@@ -836,5 +836,18 @@ namespace CalcConsoleAug
         private static double Potenci(double bazo, double potenco) => Math.Pow(bazo, potenco);
 
         private static double Rondigi(double rondigata) => Math.Round(rondigata);
+
+        private static string Disigi(string disigenda, string dividoĉeno)
+        {
+            string[] disigitaj = disigenda.Split(dividoĉeno);
+            string unuaParto = disigitaj[0];
+            string lastaParto = disigitaj[^1];
+            return disigitaj[1];
+        }
+
+        private static string Disigi(string disigenda)
+        {
+            return disigenda;
+        }
     }
 }
