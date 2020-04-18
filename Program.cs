@@ -12,7 +12,7 @@ namespace CalcConsoleAug
         private static void Main(string[] args)
         {
             // havi UTF8 por belaj ĉapeloj en konzolo
-            CultureInfo miaKulturo = new CultureInfo("eo", false);
+            _ = new CultureInfo("eo", false);
             Console.OutputEncoding = Encoding.UTF8;
 
             // Ĉi tiu stako konservas antaŭajn rezultojn
@@ -258,7 +258,7 @@ namespace CalcConsoleAug
                 string enigita = originala[0].ToLower();
 
                 // se entajpita ĉeno enhavas "kpd" (kiel procentaĵo de), kalkuli adekvate
-                if (enigita.Contains(("kpd")))
+                if (enigita.Contains("kpd"))
                 {
                     string[] disigita = enigita.Split("kpd");
                     string x = disigita[0];
@@ -330,7 +330,7 @@ namespace CalcConsoleAug
                 #endregion
 
                 //se entajpita ĉeno enhavas "exp" (ekz. 78 exp 15 = 78 estas 15 procentoj de kio?)
-                if (enigita.Contains(("exp")))
+                if (enigita.Contains("exp"))
                 {
                     string[] disigita = enigita.Split("exp");
                     string x = disigita[0];
@@ -528,13 +528,10 @@ namespace CalcConsoleAug
                     }
                     else
                     {
-                        if (rezulto != 0)
+                        if (rezulto != 0 && bazo.Contains("res"))
                         {
-                            if (bazo.Contains("res"))
-                            {
-                                bazo = rezultStako.Peek().ToString();
-                                _ = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
-                            }
+                            bazo = rezultStako.Peek().ToString();
+                            _ = Rondigi(Convert.ToDouble(bazo)).ToString(CultureInfo.CurrentCulture);
 
                         }
                     }
@@ -551,13 +548,10 @@ namespace CalcConsoleAug
                     string n_radiko = disigita[1];
 
 
-                    if (rezultStako.Count == 0)
+                    if (rezultStako.Count == 0 && enigita.Contains("res"))
                     {
-                        if (enigita.Contains("res"))
-                        {
-                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
-                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
-                        }
+                        //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                        Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
                     }
                     else
                     {
@@ -566,7 +560,6 @@ namespace CalcConsoleAug
                         double rezulto = rezultStako.Peek();
                         if (rezulto != 0)
                         {
-
                             if (bazo.Contains("res") && n_radiko.Contains("res"))
                             {
                                 n_radiko = bazo = rezulto.ToString();
@@ -601,13 +594,10 @@ namespace CalcConsoleAug
 
                     // ĉu estas "res" por antaŭa rezulto?
                     double rezulto = rezultStako.Peek();
-                    if (rezulto != 0)
+                    if (rezulto != 0 && rondigota.Contains("res"))
                     {
-                        if (rondigota.Contains("res"))
-                        {
-                            rondigota = rezultStako.Peek().ToString();
-                            _ = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
-                        }
+                        rondigota = rezultStako.Peek().ToString();
+                        _ = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
                     }
                     enigita = Rondigi(Convert.ToDouble(rondigota)).ToString(CultureInfo.CurrentCulture);
 
@@ -630,14 +620,10 @@ namespace CalcConsoleAug
                         string bazo = disigita[0];
                         string potenco = disigita[1];
 
-
-                        if (rezultStako.Count == 0)
+                        if (rezultStako.Count == 0 && enigita.Contains("res"))
                         {
-                            if (enigita.Contains("res"))
-                            {
-                                //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
-                                Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
-                            }
+                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
                         }
                         else
                         {
@@ -748,19 +734,11 @@ namespace CalcConsoleAug
 
                 foreach (string ĉeno in rezultĈenoj)
                 {
-                    if (enigita.Contains(ĉeno))
+                    if (enigita.Contains(ĉeno) && rezultStako.Count == 0)
                     {
-                        if (rezultStako.Count == 0)
-                        {
-                            //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
-                            Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
-                            enigita = enigita.Replace(ĉeno, string.Empty);
-                        }
-                        else
-                        {
-                            //se stako havas valorojn, preni lastan por kalkuli
-                            enigita = enigita.Replace(ĉeno, rezultStako.Peek().ToString(CultureInfo.CurrentCulture));
-                        }
+                        //Se stako malplenas, ankaŭ malplenigi ant/res/rez por ke eroro ne okazu
+                        Console.WriteLine("Ankoraŭ ne ekzistas antaŭa kalkulo registrita");
+                        enigita = enigita.Replace(ĉeno, string.Empty);
                     }
                 }
 
@@ -801,7 +779,7 @@ namespace CalcConsoleAug
                     rezultStako.Push(rezulto);
                     string finaSimboloStr = "";
 
-                    if (finaSimbolo.Count() != 0)
+                    if (finaSimbolo.Count != 0)
                     {
                         // Console.WriteLine($"Jen la fina simbolo: {finaSimbolo.Peek()}");
                         finaSimboloStr = finaSimbolo.Peek();
@@ -821,10 +799,10 @@ namespace CalcConsoleAug
                         finaSimbolo.Clear();
                     }
                 }
-                catch (Exception escepto)
+                catch (Exception)
                 {
                     Console.WriteLine("Nevalida kalkulo");
-                    Console.WriteLine(escepto);
+                    //Console.WriteLine(escepto);
                 }
 
                 #endregion Montri rezulton
